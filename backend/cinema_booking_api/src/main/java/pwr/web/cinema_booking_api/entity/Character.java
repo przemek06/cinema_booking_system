@@ -6,6 +6,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pwr.web.cinema_booking_api.dto.ActorDTO;
+import pwr.web.cinema_booking_api.dto.CharacterDTO;
 
 @Entity
 @Data
@@ -20,4 +22,12 @@ public class Character {
     @JoinColumn(name = "movie_id")
     private Movie movie;
     private String name;
+
+    public CharacterDTO toDto() {
+        return CharacterDTO.builder()
+                .id(id)
+                .name(name)
+                .actor(actor.toDto())
+                .build();
+    }
 }

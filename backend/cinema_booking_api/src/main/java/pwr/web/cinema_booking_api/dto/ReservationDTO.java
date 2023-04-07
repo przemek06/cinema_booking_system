@@ -13,8 +13,8 @@ import pwr.web.cinema_booking_api.entity.User;
 @Builder
 public class ReservationDTO {
     private Long id;
-    private User user;
-    private MovieScreening movieScreening;
+    private UserDTO user;
+    private MovieScreeningDTO movieScreening;
     private Integer seatRow;
     private Integer seatColumn;
 }

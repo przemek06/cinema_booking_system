@@ -6,6 +6,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pwr.web.cinema_booking_api.dto.MovieScreeningDTO;
 
 import java.util.Date;
 
@@ -23,4 +24,14 @@ public class MovieScreening {
     private CinemaHall cinemaHall;
     private Date screeningDate;
     private Integer basePrice;
+
+    public MovieScreeningDTO toDto() {
+        return MovieScreeningDTO.builder()
+                .id(id)
+                .movie(movie.toDto())
+                .cinemaHall(cinemaHall.toDto())
+                .screeningDate(screeningDate)
+                .basePrice(basePrice)
+                .build();
+    }
 }

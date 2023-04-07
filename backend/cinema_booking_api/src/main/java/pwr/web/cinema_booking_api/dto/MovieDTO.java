@@ -22,5 +22,7 @@ public class MovieDTO {
     private String overview;
     private String description;
     private Integer duration;
-    private List<Character> characters;
+    private List<CharacterDTO> characters;
+
+
 }

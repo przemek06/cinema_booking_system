@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pwr.web.cinema_booking_api.entity.Actor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CharacterDTO {
+public class UserDTO {
     private Long id;
-    private ActorDTO actor;
-    private String name;
+    private String username;
+    private String role;
+    private String fullName;
 }

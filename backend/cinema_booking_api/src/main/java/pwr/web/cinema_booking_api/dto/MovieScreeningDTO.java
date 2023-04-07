@@ -15,8 +15,8 @@ import java.util.Date;
 @Builder
 public class MovieScreeningDTO {
     private Long id;
-    private Movie movie;
-    private CinemaHall cinemaHall;
+    private MovieDTO movie;
+    private CinemaHallDTO cinemaHall;
     private Date screeningDate;
     private Integer basePrice;
 }

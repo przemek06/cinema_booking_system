@@ -6,6 +6,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pwr.web.cinema_booking_api.dto.ReservationDTO;
 
 @Entity
 @Data
@@ -21,4 +22,14 @@ public class Reservation {
     private MovieScreening movieScreening;
     private Integer seatRow;
     private Integer seatColumn;
+
+    public ReservationDTO toDto() {
+        return ReservationDTO.builder()
+                .id(id)
+                .user(user.toDto())
+                .movieScreening(movieScreening.toDto())
+                .seatRow(seatRow)
+                .seatColumn(seatColumn)
+                .build();
+    }
 }
