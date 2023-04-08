@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pwr.web.cinema_booking_api.entity.CinemaHall;
 import pwr.web.cinema_booking_api.entity.Movie;
+import pwr.web.cinema_booking_api.entity.MovieScreening;
 
 import java.util.Date;
 
@@ -19,4 +20,14 @@ public class MovieScreeningDTO {
     private CinemaHallDTO cinemaHall;
     private Date screeningDate;
     private Integer basePrice;
+
+    public MovieScreening toEntity(){
+        return MovieScreening.builder()
+                .id(id)
+                .movie(movie.toEntity())
+                .screeningDate(screeningDate)
+                .basePrice(basePrice)
+                .cinemaHall(cinemaHall.toEntity())
+                .build();
+    }
 }

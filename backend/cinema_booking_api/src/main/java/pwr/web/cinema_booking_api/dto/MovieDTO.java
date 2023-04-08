@@ -8,8 +8,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pwr.web.cinema_booking_api.entity.Character;
+import pwr.web.cinema_booking_api.entity.Movie;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -24,5 +26,16 @@ public class MovieDTO {
     private Integer duration;
     private List<CharacterDTO> characters;
 
+    public Movie toEntity(){
+        return Movie.builder()
+                .id(id)
+                .title(title)
+                .category(category)
+                .overview(overview)
+                .description(description)
+                .duration(duration)
+                .characters(characters.stream().map(CharacterDTO::toEntity).collect(Collectors.toList()))
+                .build();
+    }
 
 }

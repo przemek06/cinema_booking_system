@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pwr.web.cinema_booking_api.entity.CinemaHall;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,14 @@ public class CinemaHallDTO {
     private String description;
     private Integer columns;
     private Integer rows;
+
+    public CinemaHall toEntity(){
+        return CinemaHall.builder()
+                .id(id)
+                .name(name)
+                .description(description)
+                .columns(columns)
+                .rows(rows)
+                .build();
+    }
 }

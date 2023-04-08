@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pwr.web.cinema_booking_api.entity.Actor;
 
 @Data
 @AllArgsConstructor
@@ -13,4 +14,12 @@ import lombok.NoArgsConstructor;
 public class ActorDTO {
     private Long id;
     private String fullName;
+
+    public Actor toEntity() {
+        return Actor.builder()
+                .id(id)
+                .fullName(fullName)
+                .build();
+    }
+
 }
