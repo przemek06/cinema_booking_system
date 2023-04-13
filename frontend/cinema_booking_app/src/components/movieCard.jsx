@@ -7,15 +7,16 @@ import Typography from '@mui/material/Typography';
 
 const cardStyle = {
   backgroundColor: '#FEF5EF',
-  borderRadius: 0
+  borderRadius: 0,
+  width: '60%'
 }
 
 export function MovieCard({image, title, duration, description}) {
   return (
-    <Card sx={{ display: 'flex' }} style={cardStyle}>
+    <Card sx={{ display: 'flex' }} style={cardStyle} variant="outlined">
       <CardMedia
         component="img"
-        sx={{ width: 151}}
+        sx={{ width: 151, height: 250}}
         image={image}
         alt="Movie poster"
       />
