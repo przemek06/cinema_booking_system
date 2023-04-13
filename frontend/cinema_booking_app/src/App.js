@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import HourButton from './components/hourButton';
+import DateButton from './components/dateButton';
+import { MovieCard } from './components/movieCard';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    return (
+    <div>
+        <h1>Hello</h1>
+        {/* <HourButton label="9:00"/>
+        <DateButton day="THU" dateDay="13" month="April"/>
+        <MovieCard image="" title="Leon" duration="120" description="description"/> */}
     </div>
-  );
+    );
 }
 
 export default App;
