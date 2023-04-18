@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 
 const buttonStyle = {
-  margin: '10px 0',
+  margin: '0px',
   color: '#9D5C63',
   backgroundColor: '#FFFFFF',
   borderColor: '#9D5C63',

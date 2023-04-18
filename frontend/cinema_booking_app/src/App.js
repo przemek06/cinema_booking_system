@@ -1,17 +1,26 @@
 import React from 'react'
-import HourButton from './components/hourButton';
-import DateButton from './components/dateButton';
-import { MovieCard } from './components/movieCard';
-import Footer from './components/footer';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import MovieDetails from "./pages/MovieDetails";
+import NavBar from "./components/NavBar";
+import Footer from './components/Footer';
+
 
 function App() {
     return (
-    <div>
-        <HourButton label="9:00"/>
-        <DateButton day="THU" dateDay="13" month="April"/>
-        <MovieCard image="leon.png" title="Leon" duration="120" description="description"/>
-        <Footer />
-    </div>
+      <>
+        <BrowserRouter>
+        <Routes>
+          <Route path="/" element = {<NavBar/>}>
+            <Route path='/' element={<Home />} />
+            <Route path="movie/details" element={<MovieDetails />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+      <Footer/>
+    </>
+
     );
 }
 

@@ -4,7 +4,7 @@ import { MDBFooter, MDBContainer, MDBRow, MDBIcon } from 'mdb-react-ui-kit';
 const footerStyle = {
     backgroundColor: '#584B53',
     color: '#FEF5EF',
-    position: 'absolute',
+    position: 'static',
     left:0,
     bottom:0,
     right:0,
