@@ -1,9 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-export default function SignupForm() {
+export default function SignupForm(signUp) {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => signUp(data, navigate);
+    const navigate  = useNavigate()
     console.log(errors);
 
     return (

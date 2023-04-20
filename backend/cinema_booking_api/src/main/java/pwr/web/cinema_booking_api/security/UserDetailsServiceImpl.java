@@ -24,14 +24,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        initUser("admin", "pass1", "ADMIN");
-        initUser("user", "pass2", "USER");
+        initUser("admin@gmail.com", "pass1", "ADMIN");
+        initUser("user@gmail.com", "pass2", "USER");
     }
 
-    private void initUser(String username, String password, String role) {
-        if (!userRepository.existsByUsername(username)) {
+    private void initUser(String email, String password, String role) {
+        if (!userRepository.existsByEmail(email)) {
             User user = new User();
-            user.setUsername(username);
+            user.setEmail(email);
             user.setPassword(passwordEncoder.encode(password));
             user.setRole(role);
 
@@ -41,10 +41,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
         return new UserDetailsImpl(user);
     }

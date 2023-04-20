@@ -26,8 +26,14 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping("/anon/role")
+    public String getRole() {
+        return userService.getRole();
+    }
+
     @PostMapping("/anon/users")
     public UserDTO addMovie(@RequestBody UserDTO user) {
         return userService.addUser(user);
     }
+
 }
