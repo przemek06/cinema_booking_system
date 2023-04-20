@@ -1,6 +1,8 @@
 package pwr.web.cinema_booking_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pwr.web.cinema_booking_api.dto.UserDTO;
 import pwr.web.cinema_booking_api.entity.User;
@@ -26,8 +28,15 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public String getRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        return authentication.getAuthorities().stream().findFirst().orElseThrow().getAuthority();
+    }
+
     public UserDTO addUser(UserDTO userDTO) {
         User user = userDTO.toEntity();
+        user.setRole("USER");
         User savedUser = userRepository.save(user);
 
         return savedUser.toDto();

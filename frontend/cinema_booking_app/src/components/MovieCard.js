@@ -13,14 +13,13 @@ const cardStyle = {
 }
 
 const hourToButton = hour => <HourButton label={hour}></HourButton>
-    
 
 export function MovieCard({image, title, duration, description, hours}) {
   return (
     <Card className='movie-card' sx={{ display: 'flex' }} style={cardStyle} variant="outlined">
       <CardMedia
         component="img"
-        sx={{ width: 168, height: 250}}
+        sx={{ width: 168, height: 250, margin: 1}}
         image={image}
         alt="Movie poster"
       />
@@ -37,7 +36,7 @@ export function MovieCard({image, title, duration, description, hours}) {
           </Typography>
         </CardContent>
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', margin: 1}}>
         <div className='hour-buttons'>
           {hours.map(hourToButton)}
         </div>

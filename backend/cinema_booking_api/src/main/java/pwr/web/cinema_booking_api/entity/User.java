@@ -17,8 +17,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
+    @Column(unique=true)
+    private String email;
     private String password;
+
     private String role;
     private String fullName;
 
@@ -26,7 +28,7 @@ public class User {
         return UserDTO.builder()
                 .id(id)
                 .fullName(fullName)
-                .username(username)
+                .email(email)
                 .role(role)
                 .build();
     }

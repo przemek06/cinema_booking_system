@@ -3,7 +3,7 @@ import {MDBIcon } from 'mdb-react-ui-kit';
 import "./NavBar.css"
 
 
-const NavBar = () => {
+const NavBar = (user) => {
     return (
         <>
         <nav>

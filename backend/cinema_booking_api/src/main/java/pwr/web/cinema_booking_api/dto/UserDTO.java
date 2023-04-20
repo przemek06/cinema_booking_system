@@ -1,5 +1,7 @@
 package pwr.web.cinema_booking_api.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +14,12 @@ import pwr.web.cinema_booking_api.entity.User;
 @Builder
 public class UserDTO {
     private Long id;
-    private String username;
+
+    @NotNull
     private String password;
+    @NotNull
+    @Email
+    private String email;
     private String role;
     private String fullName;
 
@@ -22,8 +28,8 @@ public class UserDTO {
                 .id(id)
                 .fullName(fullName)
                 .role(role)
-                .username(username)
                 .password(password)
+                .email(email)
                 .build();
     }
 }
