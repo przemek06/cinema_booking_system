@@ -51,7 +51,7 @@ const signIn = async (data, setUser) => {
 const LogIn = ({setUser}) => {
     
     return (
-        <div className="body-container screenings-container">
+        <div style={{height: '300px'}} className="body-container screenings-container">
             <LoginForm signIn={signIn} setUser={setUser}/>
         </div>
     )
