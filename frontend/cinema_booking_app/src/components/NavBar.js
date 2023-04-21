@@ -1,9 +1,17 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import {MDBIcon } from 'mdb-react-ui-kit';
 import "./NavBar.css"
+import BottomMenu from "./BottomMenu"
 
+const onLogout = (removeUser) => {
+    removeUser()
+    window.location.reload(false);
+}
 
-const NavBar = (user) => {
+const NavBar = ({user, removeUser}) => {
+
+    const logout = () => onLogout(removeUser)
+
     return (
         <>
         <nav>
@@ -23,11 +31,7 @@ const NavBar = (user) => {
                         <MDBIcon fab icon="instagram" />
                     </a>
                 </div>
-                <div className="bottom-menu">
-                    <Link to="/about">ABOUT</Link>
-                    <Link to="/login">SIGN-IN</Link>
-                    <Link to="/">NOW PLAYING</Link>
-                </div>
+                <BottomMenu user = {user} logout = {logout} />
             </div>
         </nav>
   
