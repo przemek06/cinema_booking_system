@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import "./Form.css"
 
-export default function SignupForm(signUp) {
+export default function SignupForm({signUp}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => signUp(data, navigate);
     const navigate  = useNavigate()

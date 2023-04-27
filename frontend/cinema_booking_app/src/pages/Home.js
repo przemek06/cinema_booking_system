@@ -1,6 +1,8 @@
 import {MovieCard} from "../components/MovieCard";
 import DateButtonList from "../components/DateButtonList";
 import "./Style.css";
+import { useState } from "react";
+
 
 const Home = () => {
     return (

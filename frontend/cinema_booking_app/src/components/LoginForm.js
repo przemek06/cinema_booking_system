@@ -1,10 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import "./Form.css"
 
 export default function LoginForm({signIn, setUser}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => signIn(data, setUser);
+    const navigate  = useNavigate()
+    const onSubmit = data => signIn(data, setUser, navigate);
     console.log(errors);
     
     return (
