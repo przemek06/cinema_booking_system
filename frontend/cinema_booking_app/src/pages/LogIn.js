@@ -30,14 +30,16 @@ const sendRoleRequest = async () => {
     return response
 }
 
-const signIn = async (data, setUser) => {
+const signIn = async (data, setUser, navigate) => {
     let email = data["Email"]
     let password = data["Password"]
     let status = await sendSignInRequest(email, password)
     if (status == 200){
         let roleRequestResponse =  await sendRoleRequest()
         if (roleRequestResponse.status == 200) {
-            setUser(await roleRequestResponse.text())
+            let role = await roleRequestResponse.text()
+            setUser(role)
+            navigate("/")
         } else {
             // TODO: handle internal error
             console.log("error 2")
@@ -51,7 +53,7 @@ const signIn = async (data, setUser) => {
 const LogIn = ({setUser}) => {
     
     return (
-        <div className="body-container screenings-container">
+        <div style={{height: '300px'}} className="body-container screenings-container">
             <LoginForm signIn={signIn} setUser={setUser}/>
         </div>
     )
