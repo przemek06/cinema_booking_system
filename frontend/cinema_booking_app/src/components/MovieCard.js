@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
 import HourButton from "./HourButton"
+import "./MovieCard.css"
 
 const cardStyle = {
   backgroundColor: '#FEF5EF',
@@ -27,7 +28,7 @@ export function MovieCard({image, title, duration, description, hours}) {
       <Box sx={{ display: 'flex', flexDirection: 'column'}}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
-            <Link to="/movie/details">{title}</Link>
+            <Link className='link' to="/movie/details">{title}</Link>
           </Typography>
           <Typography variant="subtitle2" color="text.secondary" component="div">
             {duration} min
