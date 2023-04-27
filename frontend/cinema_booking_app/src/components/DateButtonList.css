@@ -1,0 +1,19 @@
+.outer-div {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #9D5C63;
+}
+
+.inner-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    text-align: center;
+    align-items: center;
+    width: 80%;
+    height: fit-content;
+    background-color: #9D5C63
+}

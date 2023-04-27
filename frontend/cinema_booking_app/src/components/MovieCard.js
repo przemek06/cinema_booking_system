@@ -9,7 +9,8 @@ import HourButton from "./HourButton"
 
 const cardStyle = {
   backgroundColor: '#FEF5EF',
-  border: "none"
+  border: "none",
+  borderRadius: 0
 }
 
 const hourToButton = hour => <HourButton label={hour}></HourButton>
