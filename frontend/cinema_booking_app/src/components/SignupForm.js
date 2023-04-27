@@ -6,7 +6,7 @@ const fieldStyle = {
     margin: '10px 0px 10px 0px',
     width: '100%'
   };
-export default function SignupForm(signUp) {
+export default function SignupForm({signUp}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => signUp(data, navigate);
     const navigate  = useNavigate()
