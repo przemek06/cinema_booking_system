@@ -34,7 +34,7 @@ public class MovieDTO {
                 .overview(overview)
                 .description(description)
                 .duration(duration)
-                .characters(characters.stream().map(CharacterDTO::toEntity).collect(Collectors.toList()))
+                .characters(characters != null ? characters.stream().map(CharacterDTO::toEntity).collect(Collectors.toList()) : null)
                 .build();
     }
 

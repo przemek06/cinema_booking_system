@@ -9,6 +9,7 @@ import About from "./pages/About";
 import MovieDetails from "./pages/MovieDetails";
 import NavBar from "./components/NavBar";
 import Footer from './components/Footer';
+import CinemaHalls from './pages/CinemaHalls';
 import useLocalStorage, {userRoleKey} from './hooks/LocalStorageHook';
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
             <Route path='/login' element={<LogIn setUser={setUser}  />} />
             <Route path='/logout' element={<Logout removeUser={removeUser}  />} />
             <Route path='/signup' element={<SignUp />} />
-            <Route path="movie/details" element={<MovieDetails />} />
+            <Route path="/movie/details" element={<MovieDetails />} />
+            <Route path="/halls" element={<CinemaHalls />} />
           </Route>
         </Routes>
       </BrowserRouter>
