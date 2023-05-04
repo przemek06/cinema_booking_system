@@ -35,7 +35,7 @@ public class Movie {
                 .overview(overview)
                 .description(description)
                 .duration(duration)
-                .characters(characters.stream().map(Character::toDto).collect(Collectors.toList()))
+                .characters(characters != null ? characters.stream().map(Character::toDto).collect(Collectors.toList()): null)
                 .build();
     }
 }

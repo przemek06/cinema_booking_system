@@ -26,6 +26,12 @@ public class CinemaHallService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteCinemaHalls(List<CinemaHallDTO> cinemaHalls) {
+        cinemaHallRepository.deleteAll(cinemaHalls.stream()
+                .map(CinemaHallDTO::toEntity)
+                .collect(Collectors.toList()));
+    }
+
     public CinemaHallDTO addCinemaHall(CinemaHallDTO cinemaHallDTO) {
         CinemaHall cinemaHall = cinemaHallDTO.toEntity();
         return cinemaHallRepository.save(cinemaHall).toDto();
