@@ -1,7 +1,7 @@
 import { DataGrid } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
 import { useState, useEffect } from "react";
-import AddCinemaHallDialog from "../components/AddCinemaHallDialog"
+import AddCinemaHallDialog from "../components/cinema_halls/AddCinemaHallDialog"
+import DefaultButton from "../components/buttons/DefaultButton"
 import React from 'react';
 import "./Style.css"
 
@@ -123,8 +123,8 @@ const CinemaHalls = () => {
     return (
         <div className="body-container screenings-container">
             <AddCinemaHallDialog onConfirm = {formData => onConfirm(formData, setRows)} onClose = {() => onClose(setOpen)} open = {open}/>
-            <Button variant="contained" color="success" onClick={() => setOpen(true)} >Add hall</Button>
-            <Button variant="contained" color="error" onClick={() => onDeleteButtonClick(selected, setRows)} >Delete</Button>
+            <DefaultButton color="success" onClick={() => setOpen(true)} text={"Add hall"} />
+            <DefaultButton color="error" onClick={() => onDeleteButtonClick(selected, setRows)} text={"Delete"}/>
             <DataGrid
                 rows={mapRows(rows)}
                 columns={columns}

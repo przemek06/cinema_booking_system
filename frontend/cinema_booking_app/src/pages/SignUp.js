@@ -1,4 +1,4 @@
-import SignupForm from "../components/SignupForm";
+import SignupForm from "../components/authentication/SignupForm";
 import "./Style.css";
 
 const sendSignUpRequest = async (firstName, lastName, password, email) => {

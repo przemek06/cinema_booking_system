@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import LogIn from "./pages/LogIn";
@@ -7,7 +6,7 @@ import Logout from "./pages/Logout";
 import SignUp from "./pages/SignUp";
 import About from "./pages/About";
 import MovieDetails from "./pages/MovieDetails";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/menu/NavBar";
 import Footer from './components/Footer';
 import CinemaHalls from './pages/CinemaHalls';
 import useLocalStorage, {userRoleKey} from './hooks/LocalStorageHook';

@@ -1,7 +1,6 @@
-import {MovieCard} from "../components/MovieCard";
-import DateButtonList from "../components/DateButtonList";
+import {MovieCard} from "../components/movies/MovieCard";
+import DateButtonList from "../components/calendar/DateButtonList";
 import "./Style.css";
-import { useState } from "react";
 
 
 const Home = () => {
