@@ -10,28 +10,28 @@ import NavBar from "./components/menu/NavBar";
 import Footer from './components/Footer';
 import CinemaHalls from './pages/CinemaHalls';
 import useLocalStorage, {userRoleKey} from './hooks/LocalStorageHook';
+import "./pages/Style.css";
 
 function App() {
 
     const [user, setUser, removeUser] = useLocalStorage(userRoleKey, "")
     return (
-      <>
-        <BrowserRouter>
-        <Routes>
-          <Route path="/" element = {<NavBar user={user} removeUser = {removeUser}/>}>
-            <Route path='/' element={<Home />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/login' element={<LogIn setUser={setUser}  />} />
-            <Route path='/logout' element={<Logout removeUser={removeUser}  />} />
-            <Route path='/signup' element={<SignUp />} />
-            <Route path="/movie/details" element={<MovieDetails />} />
-            <Route path="/halls" element={<CinemaHalls />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-      <Footer/>
-    </>
-
+      <div className='page-container'>
+          <BrowserRouter>
+          <Routes>
+            <Route path="/" element = {<NavBar user={user} removeUser = {removeUser}/>}>
+              <Route path='/' element={<Home />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/login' element={<LogIn setUser={setUser}  />} />
+              <Route path='/logout' element={<Logout removeUser={removeUser}  />} />
+              <Route path='/signup' element={<SignUp />} />
+              <Route path="/movie/details" element={<MovieDetails />} />
+              <Route path="/halls" element={<CinemaHalls />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <Footer/>
+      </div>
     );
 }
 

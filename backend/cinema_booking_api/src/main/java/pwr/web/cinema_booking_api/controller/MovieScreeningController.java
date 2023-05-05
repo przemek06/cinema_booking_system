@@ -2,13 +2,11 @@ package pwr.web.cinema_booking_api.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pwr.web.cinema_booking_api.dto.MovieScreeningDTO;
 import pwr.web.cinema_booking_api.service.MovieScreeningService;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,12 +20,17 @@ public class MovieScreeningController {
     }
 
     @GetMapping("/anon/screenings")
-    public List<MovieScreeningDTO> getMovies() {
+    public List<MovieScreeningDTO> getMovieScreenings() {
         return movieScreeningService.getMovieScreenings();
     }
 
+    @GetMapping("/anon/screenings/{date}")
+    public List<MovieScreeningDTO> getMovieScreeningsByDate(@PathVariable long date) {
+        return movieScreeningService.getMovieScreeningsByDate(new Date(date));
+    }
+
     @PostMapping("/admin/screenings")
-    public MovieScreeningDTO addMovie(@RequestBody MovieScreeningDTO movieScreening) {
+    public MovieScreeningDTO addMovieScreening(@RequestBody MovieScreeningDTO movieScreening) {
         return movieScreeningService.addMovieScreening(movieScreening);
     }
 }

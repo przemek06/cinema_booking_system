@@ -6,6 +6,7 @@ import pwr.web.cinema_booking_api.dto.CharacterDTO;
 import pwr.web.cinema_booking_api.dto.MovieDTO;
 import pwr.web.cinema_booking_api.entity.Character;
 import pwr.web.cinema_booking_api.entity.Movie;
+import pwr.web.cinema_booking_api.exception.RecordNotFoundException;
 import pwr.web.cinema_booking_api.repository.MovieRepository;
 
 import java.util.List;
@@ -27,6 +28,13 @@ public class MovieService {
         return movieRepository.findAll().stream()
                 .map(Movie::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public MovieDTO getMovieById(long id) throws RecordNotFoundException {
+        return movieRepository
+                .findById(id)
+                .orElseThrow(RecordNotFoundException::new)
+                .toDto();
     }
 
     public MovieDTO addMovie(MovieDTO movieDTO) {

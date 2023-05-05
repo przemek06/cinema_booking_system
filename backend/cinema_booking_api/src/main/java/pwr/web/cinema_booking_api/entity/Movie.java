@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import pwr.web.cinema_booking_api.dto.MovieDTO;
 
 import java.util.List;
@@ -21,8 +22,10 @@ public class Movie {
     private Long id;
     private String title;
     private String category;
+    @Column(length = 1024)
     private String overview;
     private String description;
+    private String image;
     private Integer duration;
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Character> characters;
@@ -34,6 +37,7 @@ public class Movie {
                 .category(category)
                 .overview(overview)
                 .description(description)
+                .image(image)
                 .duration(duration)
                 .characters(characters != null ? characters.stream().map(Character::toDto).collect(Collectors.toList()): null)
                 .build();
