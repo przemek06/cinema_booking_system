@@ -1,5 +1,6 @@
 package pwr.web.cinema_booking_api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class MovieScreeningDTO {
     private Long id;
     private MovieDTO movie;
     private CinemaHallDTO cinemaHall;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm a")
     private Date screeningDate;
     private Integer basePrice;
 

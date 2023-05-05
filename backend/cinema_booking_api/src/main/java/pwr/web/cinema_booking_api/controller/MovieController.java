@@ -2,11 +2,9 @@ package pwr.web.cinema_booking_api.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pwr.web.cinema_booking_api.dto.MovieDTO;
+import pwr.web.cinema_booking_api.exception.RecordNotFoundException;
 import pwr.web.cinema_booking_api.service.MovieService;
 
 import java.util.List;
@@ -26,6 +24,10 @@ public class MovieController {
         return movieService.getMovies();
     }
 
+    @GetMapping("/anon/movies/{id}")
+    public MovieDTO getMovieById(@PathVariable long id) throws RecordNotFoundException {
+        return movieService.getMovieById(id);
+    }
     @PostMapping("/admin/movies")
     public MovieDTO addMovie(@RequestBody MovieDTO movie) {
         return movieService.addMovie(movie);

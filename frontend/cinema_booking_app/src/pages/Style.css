@@ -1,6 +1,12 @@
+.page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
 .body-container {
+    position: relative;
     margin-top: 80px;
-    height: 100% ;
+    padding-bottom: 200px;  
     width: 100%;
 }
 

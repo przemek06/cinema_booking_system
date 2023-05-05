@@ -29,7 +29,7 @@ const mapRows = (rowsJSON) => {
     }
 }
 
-const getCinemaHalls = async (setRows) => {
+const loadCinemaHalls = async (setRows) => {
     let result = await fetch("http://localhost:8080/anon/halls", {
         method: "GET",
         headers: {
@@ -68,7 +68,7 @@ const onDeleteButtonClick = async (selected, setRows) => {
     
       if (result.status === 200) {
         console.log("Success.");
-        getCinemaHalls(setRows) 
+        loadCinemaHalls(setRows) 
       } else {
         console.log("Could not delete.");
       }
@@ -95,7 +95,7 @@ const onConfirm = async (formData, setRows) => {
 
       if (response.status == 200) {
         console.log("success")
-        getCinemaHalls(setRows) 
+        loadCinemaHalls(setRows) 
       } else {
         // TODO popup about an error
         console.log("error")
@@ -117,7 +117,7 @@ const CinemaHalls = () => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        getCinemaHalls(setRows)
+        loadCinemaHalls(setRows)
     }, []);
 
     return (

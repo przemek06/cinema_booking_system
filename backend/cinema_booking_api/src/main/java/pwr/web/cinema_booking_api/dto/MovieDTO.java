@@ -23,6 +23,7 @@ public class MovieDTO {
     private String category;
     private String overview;
     private String description;
+    private String image;
     private Integer duration;
     private List<CharacterDTO> characters;
 
@@ -33,6 +34,7 @@ public class MovieDTO {
                 .category(category)
                 .overview(overview)
                 .description(description)
+                .image(image)
                 .duration(duration)
                 .characters(characters != null ? characters.stream().map(CharacterDTO::toEntity).collect(Collectors.toList()) : null)
                 .build();
