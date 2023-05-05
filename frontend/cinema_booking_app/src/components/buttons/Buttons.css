@@ -1,0 +1,14 @@
+.form-button {
+    margin: 10px 0px 10px 0px;
+    padding: 10px;
+    color: #ffffff;
+    background-color: #b4b4b4;
+    border: none;
+    border-radius: 0;
+    text-decoration: none
+}
+
+.form-button:hover {
+    background-color: #2a2929;
+    cursor: pointer;
+}

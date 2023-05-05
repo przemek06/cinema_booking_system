@@ -1,6 +1,8 @@
-import CustomDialog from "./CustomDialog"
+import CustomDialog from "../CustomDialog"
 import { useForm } from "react-hook-form";
-import "./Form.css"
+import InputButton from "../buttons/InputButton"
+import SubmitButton from "../buttons/SubmitButton"
+import "../Form.css"
 
 const AddCinemaHallDialog = ({onClose, onConfirm, open}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -24,8 +26,8 @@ const AddCinemaHallDialog = ({onClose, onConfirm, open}) => {
                 <label className='form-text'>Number of columns</label>
                 <input type="text" className='form-field' {...register("columns", {required: true, pattern: "{0-9}+"})} />
                 <br/>
-                <input type="submit" className='form-button' value="Confirm"/>
-                <input type="button" className="form-button" value="Close" onClick={onClose} />
+                <SubmitButton value="Confirm" />
+                <InputButton type="button" value="Close" onClick={onClose} />
             </form>
         </CustomDialog>
     )

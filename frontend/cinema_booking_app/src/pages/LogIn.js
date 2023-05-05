@@ -1,4 +1,4 @@
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/authentication/LoginForm";
 import "./Style.css";
 
 const sendSignInRequest = async (email, password) => {

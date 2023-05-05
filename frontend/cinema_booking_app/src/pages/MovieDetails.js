@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Style.css";
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';

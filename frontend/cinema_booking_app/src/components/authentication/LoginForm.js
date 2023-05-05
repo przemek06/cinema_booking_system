@@ -1,7 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import "./Form.css"
+import "../Form.css"
+import SubmitButton from '../buttons/SubmitButton';
 
 export default function LoginForm({signIn, setUser}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -19,7 +20,7 @@ export default function LoginForm({signIn, setUser}) {
             <label className='form-text'>Password *</label>
             <input type="password" className='form-field' {...register("Password", {required: true, min: 8})} />
             <br/>
-            <input type="submit" className='form-button' value="SIGN IN"/>
+            <SubmitButton value="SIGN IN"/>
         </form>
         <p>Don't have an account yet? <a href="/signup">SIGN UP</a></p>
       </div>

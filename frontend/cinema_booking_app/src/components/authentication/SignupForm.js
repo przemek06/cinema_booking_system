@@ -1,7 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import "./Form.css"
+import "../Form.css"
+import SubmitButton from '../buttons/SubmitButton';
+
 
 export default function SignupForm({signUp}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -27,7 +29,7 @@ export default function SignupForm({signUp}) {
             <label className='form-text'>Password *</label>
             <input className='form-field' type="password" {...register("Password", {required: true, min: 8})} />
             <br/>
-            <input type="submit" className='form-button' value="SIGN UP"/>
+            <SubmitButton value="SIGN UP"/>
         </form>
         </div>
     );
