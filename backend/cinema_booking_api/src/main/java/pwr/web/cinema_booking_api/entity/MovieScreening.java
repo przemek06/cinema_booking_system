@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import pwr.web.cinema_booking_api.dto.MovieScreeningDTO;
 
 import java.util.Date;
@@ -20,6 +22,7 @@ public class MovieScreening {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Movie movie;
     @ManyToOne
     @JoinColumn(name = "cinema_hall_id")

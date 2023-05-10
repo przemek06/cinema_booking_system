@@ -1,8 +1,9 @@
 import {MovieCard} from "../components/movies/MovieCard";
 import DateButtonList from "../components/calendar/DateButtonList";
+import DefaultButton from "../components/buttons/DefaultButton";
 import "./Style.css";
 import { useState, useEffect } from "react";
-
+import AddScreeningDialog from "../components/movies/AddScreeningDialog";
 
 const loadMovieCards = async (chosenDate, setMovieCards) => {
     let result = await fetch("http://localhost:8080/anon/screenings/"+chosenDate.getTime().toString(), {
@@ -69,12 +70,54 @@ const MovieCardList = ({movieCards}) => {
     )
 }
 
+const onClose = (setOpen) => {
+    setOpen(false)
+}
 
-const Home = () => {
+const onConfirm = async (formData, chosenDate, setMovieCards, onClose, onBadDate) => {
+    let json = constructJSON(formData)
+
+    let response = await fetch('http://localhost:8080/admin/screenings', { 
+        method: 'POST',
+        body: JSON.stringify(json),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        mode: 'cors',
+        referrerPolicy: 'no-referrer',
+        origin: "http://localhost:3000/",
+      });
+
+      if (response.status == 200) {
+        console.log("success")
+        onClose()
+        loadMovieCards(chosenDate, setMovieCards) 
+      } else if (response.status == 400) {
+        console.log("Cinema hall not available at this moment")
+        onBadDate()
+      }
+      else {
+        // TODO popup about an error
+        console.log("error")
+      }
+}
+
+const constructJSON = (formData) => {
+    return {
+        "screeningDate": formData["screeningDate"].replace("T", " "),
+        "basePrice": Number(formData["basePrice"]),
+        "movie": {"id": Number(formData["movie"])},
+        "cinemaHall": {"id": Number(formData["cinemaHall"])},
+    }
+}
+
+const Home = ({isAdmin}) => {
     const initDate = new Date()
     initDate.setHours(0,0,0,0)
     const [chosenDate, setDate] = useState(initDate)
     const [movieCards, setMovieCards] = useState([])
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         loadMovieCards(chosenDate, setMovieCards)
@@ -82,9 +125,11 @@ const Home = () => {
 
     return (
         <div className="body-container screenings-container">
+            <AddScreeningDialog onConfirm = {(formData, onClose, onBadDate) => onConfirm(formData, chosenDate, setMovieCards, onClose, onBadDate)} onClose = {() => onClose(setOpen)} open = {open}/>
             <h1>Now playing</h1>
             <DateButtonList chosenDate={chosenDate} setDate={setDate} />
             <MovieCardList movieCards={movieCards}/>
+            { isAdmin ? <DefaultButton onClick = {() => setOpen(true)} color="success" text="Add screening"/> : <></> }
         </div>
     )
 }

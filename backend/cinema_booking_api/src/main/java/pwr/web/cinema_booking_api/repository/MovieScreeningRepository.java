@@ -13,4 +13,5 @@ public interface MovieScreeningRepository extends JpaRepository<MovieScreening, 
 
 
     List<MovieScreening> getMovieScreeningsByScreeningDateBetween(Date dayStart, Date dayEnd);
+    List<MovieScreening> getMovieScreeningsByCinemaHallId(long id);
 }
