@@ -41,12 +41,12 @@ const signIn = async (data, setUser, navigate) => {
             setUser(role)
             navigate("/")
         } else {
-            // TODO: handle internal error
-            console.log("error 2")
+            alert("Internal error occurred. Please try again later.");
+            console.log("Error: Internal error occurred during role request");
         }
     } else {
-        // TODO: handle bad log in
-        console.log("error")
+        alert("Invalid email or password. Please try again.");
+        console.log("Error: Bad login");
     }
 }
 
