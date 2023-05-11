@@ -3,6 +3,8 @@ import "./Style.css";
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useLocation } from 'react-router-dom';
+import DefaultButton from "../components/buttons/DefaultButton";
+import { useNavigate } from "react-router-dom";
 
 const image = (movieDetails) => movieDetails == null ? null : movieDetails["image"]
 const title = (movieDetails) => movieDetails == null ? null : movieDetails["title"]
@@ -15,7 +17,6 @@ const description = (movieDetails) => movieDetails == null ? null : movieDetails
 const makeListElement = actor => <li><Typography variant="subtitle2" color="text.secondary" component="div">{actor}</Typography></li>
 
 const loadMovieDetails = async (id, setMovieDetails) => {
-    console.log(id)
 
     let result = await fetch("http://localhost:8080/anon/movies/"+id, {
         method: "GET",
@@ -38,9 +39,32 @@ const loadMovieDetails = async (id, setMovieDetails) => {
     }
 }
 
-const MovieDetails = () => {
+const deleteMovie = async (id, navigate) => {
+    let result = await fetch("http://localhost:8080/admin/movies/delete/"+id, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+        referrerPolicy: "no-referrer",
+        origin: "http://localhost:3000/",
+      });
+
+    if (result.status === 200) {
+        console.log("Success.");
+        navigate("/")
+        
+    } else {
+        console.log("Could not delete.");
+        //TODO implement pls
+    }
+}
+
+const MovieDetails = ({isAdmin}) => {
 
     const [movieDetails, setMovieDetails] = useState()
+    const naviagate = useNavigate()
     const location = useLocation();
     const state = location.state;
 
@@ -83,6 +107,7 @@ const MovieDetails = () => {
                         {overview(movieDetails)}
                     </p>
                 </div>
+                { isAdmin ? <DefaultButton onClick = {() => deleteMovie(state["id"], naviagate)} color="error" text="Delete"/> : <></> }
             </div>
         </div>
     );

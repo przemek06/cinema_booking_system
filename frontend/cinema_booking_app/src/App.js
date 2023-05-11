@@ -20,12 +20,12 @@ function App() {
           <BrowserRouter>
           <Routes>
             <Route path="/" element = {<NavBar user={user} removeUser = {removeUser}/>}>
-              <Route path='/' element={<Home />} />
+              <Route path='/' element={<Home isAdmin={user === "ROLE_ADMIN"} />} />
               <Route path='/about' element={<About />} />
               <Route path='/login' element={<LogIn setUser={setUser}  />} />
               <Route path='/logout' element={<Logout removeUser={removeUser}  />} />
               <Route path='/signup' element={<SignUp />} />
-              <Route path="/movie/details" element={<MovieDetails />} />
+              <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"}/>} />
               <Route path="/halls" element={<CinemaHalls />} />
             </Route>
           </Routes>

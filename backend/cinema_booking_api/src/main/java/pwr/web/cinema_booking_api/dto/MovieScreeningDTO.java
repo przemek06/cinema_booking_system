@@ -19,7 +19,7 @@ public class MovieScreeningDTO {
     private Long id;
     private MovieDTO movie;
     private CinemaHallDTO cinemaHall;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm a")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm")
     private Date screeningDate;
     private Integer basePrice;
 

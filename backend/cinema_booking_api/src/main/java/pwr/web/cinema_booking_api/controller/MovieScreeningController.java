@@ -4,6 +4,7 @@ package pwr.web.cinema_booking_api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pwr.web.cinema_booking_api.dto.MovieScreeningDTO;
+import pwr.web.cinema_booking_api.exception.BadDateException;
 import pwr.web.cinema_booking_api.service.MovieScreeningService;
 
 import java.util.Date;
@@ -30,7 +31,7 @@ public class MovieScreeningController {
     }
 
     @PostMapping("/admin/screenings")
-    public MovieScreeningDTO addMovieScreening(@RequestBody MovieScreeningDTO movieScreening) {
+    public MovieScreeningDTO addMovieScreening(@RequestBody MovieScreeningDTO movieScreening) throws BadDateException {
         return movieScreeningService.addMovieScreening(movieScreening);
     }
 }

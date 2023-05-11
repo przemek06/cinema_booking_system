@@ -32,4 +32,9 @@ public class MovieController {
     public MovieDTO addMovie(@RequestBody MovieDTO movie) {
         return movieService.addMovie(movie);
     }
+
+    @PostMapping("/admin/movies/delete/{id}")
+    public void addMovie(@PathVariable long id) {
+        movieService.deleteMovie(id);
+    }
 }

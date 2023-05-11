@@ -50,4 +50,8 @@ public class MovieService {
 
         return savedMovie.toDto();
     }
+
+    public void deleteMovie(long id) {
+        movieRepository.deleteById(id);
+    }
 }
