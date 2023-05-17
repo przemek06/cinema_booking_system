@@ -9,6 +9,7 @@ import MovieDetails from "./pages/MovieDetails";
 import NavBar from "./components/menu/NavBar";
 import Footer from './components/Footer';
 import CinemaHalls from './pages/CinemaHalls';
+import AddMovie from './pages/AddMovie';
 import useLocalStorage, {userRoleKey} from './hooks/LocalStorageHook';
 import "./pages/Style.css";
 
@@ -25,6 +26,7 @@ function App() {
               <Route path='/login' element={<LogIn setUser={setUser}  />} />
               <Route path='/logout' element={<Logout removeUser={removeUser}  />} />
               <Route path='/signup' element={<SignUp />} />
+              <Route path='/movie/add' element={<AddMovie />} />
               <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"}/>} />
               <Route path="/halls" element={<CinemaHalls />} />
             </Route>

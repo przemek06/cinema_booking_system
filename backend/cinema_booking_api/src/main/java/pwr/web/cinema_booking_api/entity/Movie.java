@@ -22,8 +22,8 @@ public class Movie {
     private Long id;
     private String title;
     private String category;
-    @Column(length = 1024)
     private String overview;
+    @Column(length = 1024)
     private String description;
     private String image;
     private Integer duration;

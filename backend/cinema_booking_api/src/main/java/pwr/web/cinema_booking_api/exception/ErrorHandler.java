@@ -19,4 +19,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({BadReservationsException.class})
+    public ResponseEntity<String> handleBadReservations(BadReservationsException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

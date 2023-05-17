@@ -62,7 +62,7 @@ const MovieCardList = ({movieCards}) => {
                     image={card["movie"]["image"]} 
                     title={card["movie"]["title"]} 
                     duration={card["movie"]["duration"]} 
-                    description={card["movie"]["description"]} 
+                    overview={card["movie"]["overview"]} 
                     hours={mapDatesToHours(hours)}
                 />
             })}

@@ -97,14 +97,14 @@ const MovieDetails = ({isAdmin}) => {
                             {actors(movieDetails).map(makeListElement)}
                         </ul> 
                         <Typography variant="body" component="div">
-                            {description(movieDetails)}
+                            {overview(movieDetails)}
                         </Typography>
                     </div>
                 </div>
                 <div className="description-container">
                     <p>
                         <Typography component="div" variant="h6">Description</Typography>
-                        {overview(movieDetails)}
+                        {description(movieDetails)}
                     </p>
                 </div>
                 { isAdmin ? <DefaultButton onClick = {() => deleteMovie(state["id"], naviagate)} color="error" text="Delete"/> : <></> }

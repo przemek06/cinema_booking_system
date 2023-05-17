@@ -26,6 +26,10 @@ public class MovieScreeningService {
         this.movieService = movieService;
     }
 
+    public MovieScreeningDTO getMovieScreeningById(long id) throws RecordNotFoundException {
+        return movieScreeningRepository.findById(id).orElseThrow(RecordNotFoundException::new).toDto();
+    }
+
     public List<MovieScreeningDTO> getMovieScreenings() {
         return movieScreeningRepository.findAll()
                 .stream()
