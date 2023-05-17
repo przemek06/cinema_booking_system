@@ -5,7 +5,7 @@ const AdminBottomMenu = ({logout}) => {
         <div className="bottom-menu">
             <Link to="/about">ABOUT</Link>
             <Link to="/">NOW PLAYING</Link>
-            <Link to="/add-movie">ADD MOVIE</Link>
+            <Link to="/movie/add">ADD MOVIE</Link>
             <Link to="/halls">HALLS</Link>
             <Link to="/profile">PROFILE</Link>
             <Link to="/" onClick={() => logout()} >LOGOUT</Link>

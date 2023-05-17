@@ -29,8 +29,8 @@ const signUp = async (data, navigate) => {
     if (status == 200){
         navigate("/login")
     } else {
-        // TODO: error message popup on the page
-        console.log("errror")
+        alert("An error occurred during sign up. Please try again.");
+        console.log("Error: Sign up failed");
     }
 }
 
