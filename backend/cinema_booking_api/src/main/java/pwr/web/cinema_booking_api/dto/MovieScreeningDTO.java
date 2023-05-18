@@ -26,10 +26,10 @@ public class MovieScreeningDTO {
     public MovieScreening toEntity(){
         return MovieScreening.builder()
                 .id(id)
-                .movie(movie.toEntity())
+                .movie(movie == null ? null : movie.toEntity())
                 .screeningDate(screeningDate)
                 .basePrice(basePrice)
-                .cinemaHall(cinemaHall.toEntity())
+                .cinemaHall(cinemaHall == null ? null : cinemaHall.toEntity())
                 .build();
     }
 }

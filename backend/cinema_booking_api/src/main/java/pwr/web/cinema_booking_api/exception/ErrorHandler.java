@@ -10,17 +10,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({RecordNotFoundException.class})
-    public ResponseEntity<String> handleNotFound(RecordNotFoundException ex){
+    public ResponseEntity<String> handleRecordNotFoundException(RecordNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({BadDateException.class})
-    public ResponseEntity<String> handleBadDate(BadDateException ex){
+    public ResponseEntity<String> handleBadDateException(BadDateException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({BadReservationsException.class})
-    public ResponseEntity<String> handleBadReservations(BadReservationsException ex){
+    public ResponseEntity<String> handleBadReservationsException(BadReservationsException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NoSuchUserException.class})
+    public ResponseEntity<String> handleNoSuchUserException(NoSuchUserException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
