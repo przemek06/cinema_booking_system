@@ -34,7 +34,7 @@ public class MovieController {
     }
 
     @PostMapping("/admin/movies/delete/{id}")
-    public void addMovie(@PathVariable long id) {
+    public void deleteMovie(@PathVariable long id) {
         movieService.deleteMovie(id);
     }
 }
