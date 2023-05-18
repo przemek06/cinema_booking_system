@@ -1,13 +1,16 @@
 package pwr.web.cinema_booking_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pwr.web.cinema_booking_api.dto.UserDTO;
 import pwr.web.cinema_booking_api.entity.User;
+import pwr.web.cinema_booking_api.exception.NoSuchUserException;
 import pwr.web.cinema_booking_api.repository.UserRepository;
+import pwr.web.cinema_booking_api.security.UserDetailsImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,10 +34,25 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    private Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
     public String getRole(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = getAuthentication();
 
         return authentication.getAuthorities().stream().findFirst().orElseThrow().getAuthority();
+    }
+
+    public long getId() throws NoSuchUserException {
+        Authentication authentication = getAuthentication();
+
+        System.out.println();
+
+        if (authentication.getPrincipal() instanceof UserDetailsImpl) {
+            return ((UserDetailsImpl)authentication.getPrincipal()).getId();
+        }
+
+        throw  new NoSuchUserException();
     }
 
     public UserDTO addUser(UserDTO userDTO) {

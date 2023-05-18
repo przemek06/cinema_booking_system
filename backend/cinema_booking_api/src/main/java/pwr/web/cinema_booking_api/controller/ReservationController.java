@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pwr.web.cinema_booking_api.dto.ReservationDTO;
 import pwr.web.cinema_booking_api.exception.BadReservationsException;
+import pwr.web.cinema_booking_api.exception.NoSuchUserException;
 import pwr.web.cinema_booking_api.exception.RecordNotFoundException;
 import pwr.web.cinema_booking_api.service.ReservationService;
 
@@ -19,9 +20,9 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @PostMapping("/reservations")
+    @PostMapping("/user/reservations")
     public List<ReservationDTO> createReservations(@RequestBody List<ReservationDTO> reservationDTOs)
-            throws RecordNotFoundException, BadReservationsException {
+            throws RecordNotFoundException, BadReservationsException, NoSuchUserException {
         return reservationService.createReservations(reservationDTOs);
     }
 }

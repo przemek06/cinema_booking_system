@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 import pwr.web.cinema_booking_api.dto.CinemaHallDTO;
 import pwr.web.cinema_booking_api.dto.MovieScreeningDTO;
 import pwr.web.cinema_booking_api.dto.ReservationDTO;
-import pwr.web.cinema_booking_api.entity.CinemaHall;
 import pwr.web.cinema_booking_api.entity.Reservation;
+import pwr.web.cinema_booking_api.entity.User;
 import pwr.web.cinema_booking_api.exception.BadReservationsException;
+import pwr.web.cinema_booking_api.exception.NoSuchUserException;
 import pwr.web.cinema_booking_api.exception.RecordNotFoundException;
 import pwr.web.cinema_booking_api.repository.ReservationRepository;
 
@@ -20,11 +21,13 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final MovieScreeningService movieScreeningService;
+    private final UserService userService;
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository, MovieScreeningService movieScreeningService) {
+    public ReservationService(ReservationRepository reservationRepository, MovieScreeningService movieScreeningService, UserService userService) {
         this.reservationRepository = reservationRepository;
         this.movieScreeningService = movieScreeningService;
+        this.userService = userService;
     }
 
     private boolean anyMovieScreeningNull(List<ReservationDTO> reservationDTOs) {
@@ -74,7 +77,13 @@ public class ReservationService {
                 );
     }
 
-    public List<ReservationDTO> createReservations(List<ReservationDTO> reservationDTOs) throws BadReservationsException, RecordNotFoundException {
+    private User createUser(long id) throws NoSuchUserException {
+        User user = new User();
+        user.setId(id);
+        return user;
+    }
+
+    public List<ReservationDTO> createReservations(List<ReservationDTO> reservationDTOs) throws BadReservationsException, RecordNotFoundException, NoSuchUserException {
         if (anyMovieScreeningNull(reservationDTOs) || incompatibleMovieScreenings(reservationDTOs)) {
             throw new BadReservationsException();
         }
@@ -91,13 +100,17 @@ public class ReservationService {
             throw new BadReservationsException();
         }
 
+        long userId = userService.getId();
+        User reservationUser = createUser(userId);
+
         List<Reservation> toSave = reservationDTOs.stream()
                 .map(ReservationDTO::toEntity)
                 .collect(Collectors.toList());
 
+        toSave.forEach(r -> r.setUser(reservationUser));
+
         return reservationRepository.saveAll(toSave).stream()
                 .map(Reservation::toDto)
                 .collect(Collectors.toList());
-
     }
 }

@@ -33,8 +33,8 @@ public class MovieScreening {
     public MovieScreeningDTO toDto() {
         return MovieScreeningDTO.builder()
                 .id(id)
-                .movie(movie.toDto())
-                .cinemaHall(cinemaHall.toDto())
+                .movie(movie == null ? null : movie.toDto())
+                .cinemaHall(cinemaHall == null ? null : cinemaHall.toDto())
                 .screeningDate(screeningDate)
                 .basePrice(basePrice)
                 .build();
