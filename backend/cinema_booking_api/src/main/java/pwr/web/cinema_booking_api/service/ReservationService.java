@@ -3,13 +3,16 @@ package pwr.web.cinema_booking_api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pwr.web.cinema_booking_api.dto.CinemaHallDTO;
+import pwr.web.cinema_booking_api.dto.MovieDTO;
 import pwr.web.cinema_booking_api.dto.MovieScreeningDTO;
 import pwr.web.cinema_booking_api.dto.ReservationDTO;
+import pwr.web.cinema_booking_api.entity.Movie;
 import pwr.web.cinema_booking_api.entity.Reservation;
 import pwr.web.cinema_booking_api.entity.User;
 import pwr.web.cinema_booking_api.exception.BadReservationsException;
 import pwr.web.cinema_booking_api.exception.NoSuchUserException;
 import pwr.web.cinema_booking_api.exception.RecordNotFoundException;
+import pwr.web.cinema_booking_api.exception.UnauthorizedDeletionException;
 import pwr.web.cinema_booking_api.repository.ReservationRepository;
 
 import java.util.List;
@@ -112,5 +115,19 @@ public class ReservationService {
         return reservationRepository.saveAll(toSave).stream()
                 .map(Reservation::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<ReservationDTO> getReservations() throws NoSuchUserException {
+        return reservationRepository.findAllByUserId(userService.getId()).stream()
+                .map(Reservation::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteReservation(long id) throws NoSuchUserException, UnauthorizedDeletionException {
+        if (userService.getId() == reservationRepository.findById(id).get().getUser().getId()) {
+            reservationRepository.deleteById(id);
+        } else {
+            throw new UnauthorizedDeletionException();
+        }
     }
 }
