@@ -30,10 +30,9 @@ const loadMovieDetails = async (id, setMovieDetails) => {
       });
 
     if (result.status === 200) {
-        console.log("Success.");
         const resultJSON = await result.json();
-        console.log(resultJSON)
         setMovieDetails(resultJSON);
+        console.log("Success.");
     } else {
         console.log("Could not load data.");
     }
@@ -64,7 +63,7 @@ const deleteMovie = async (id, navigate) => {
 const MovieDetails = ({isAdmin}) => {
 
     const [movieDetails, setMovieDetails] = useState()
-    const naviagate = useNavigate()
+    const navigate = useNavigate()
     const location = useLocation();
     const state = location.state;
 
@@ -107,7 +106,7 @@ const MovieDetails = ({isAdmin}) => {
                         {description(movieDetails)}
                     </p>
                 </div>
-                { isAdmin ? <DefaultButton onClick = {() => deleteMovie(state["id"], naviagate)} color="error" text="Delete"/> : <></> }
+                { isAdmin ? <DefaultButton onClick = {() => deleteMovie(state["id"], navigate)} color="error" text="Delete"/> : <></> }
             </div>
         </div>
     );
