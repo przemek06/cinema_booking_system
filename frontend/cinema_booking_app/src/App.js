@@ -12,6 +12,7 @@ import CinemaHalls from './pages/CinemaHalls';
 import AddMovie from './pages/AddMovie';
 import useLocalStorage, {userRoleKey} from './hooks/LocalStorageHook';
 import "./pages/Style.css";
+import MakeReservation from './pages/MakeReservation';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
               <Route path='/movie/add' element={<AddMovie />} />
               <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"}/>} />
               <Route path="/halls" element={<CinemaHalls />} />
+              <Route path="/reservations" element={<MakeReservation />} />
             </Route>
           </Routes>
         </BrowserRouter>

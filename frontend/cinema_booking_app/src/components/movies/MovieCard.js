@@ -14,9 +14,13 @@ const cardStyle = {
   borderRadius: 0
 }
 
-const hourToButton = hour => <HourButton label={hour}></HourButton>
+const mapScreenings = (hours, screeningIds, onClick) => {
+  return screeningIds.map((id, i) => {
+    return (<HourButton label={hours[i]} onClick={() => onClick(id)}></HourButton>)
+  })
+}
 
-export function MovieCard({id, image, title, duration, overview, hours}) {
+export function MovieCard({id, image, title, duration, overview, hours, screeningIds, onButtonClick}) {
   return (
     <Card className='movie-card' sx={{ display: 'flex' }} style={cardStyle} variant="outlined">
       <CardMedia
@@ -40,7 +44,7 @@ export function MovieCard({id, image, title, duration, overview, hours}) {
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', margin: 1}}>
         <div className='hour-buttons'>
-          {hours.map(hourToButton)}
+          {mapScreenings(hours, screeningIds, onButtonClick)}
         </div>
       </Box>
     </Card>

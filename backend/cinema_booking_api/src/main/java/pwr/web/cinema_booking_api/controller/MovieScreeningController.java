@@ -32,7 +32,7 @@ public class MovieScreeningController {
     }
 
 
-    @GetMapping("/anon/screenings/{date}")
+    @GetMapping("/anon/screenings/date/{date}")
     public List<MovieScreeningDTO> getMovieScreeningsByDate(@PathVariable long date) {
         return movieScreeningService.getMovieScreeningsByDate(new Date(date));
     }
