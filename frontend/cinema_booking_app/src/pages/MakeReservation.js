@@ -75,8 +75,8 @@ const constructJSON = (chosenSeats, movieScreening) => {
 // TODO: error handling and empty input handling
 const onConfirm = async (chosenSeats, movieScreening, navigate, setError) => {
     const json = constructJSON(chosenSeats, movieScreening)
-    
-    let response = await fetch('http://localhost:8080/user/reservations/pdf', {
+
+    let response = await fetch('http://localhost:8080/user/reservations', {
         method: 'POST',
         body: JSON.stringify(json),
         headers: {
@@ -89,15 +89,33 @@ const onConfirm = async (chosenSeats, movieScreening, navigate, setError) => {
     });
 
     if (response.status == 200) {
-        const blob = await response.blob()
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-
+        const blob = await loadPDF(json)
+        if (blob != null) {
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        }
         navigate("/")
-        console.log("success")
     } else {
         setError(true)
-        console.log("error")
+    }
+}
+
+const loadPDF = async (json) => {
+    let response = await fetch('http://localhost:8080/user/reservations/pdf', {
+        method: 'POST',
+        body: JSON.stringify(json),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        mode: 'cors',
+        referrerPolicy: 'no-referrer',
+        origin: "http://localhost:3000/",
+    });
+    if (response.status == 200) {
+        return await response.blob()
+    } else {
+        return null
     }
 
 }
