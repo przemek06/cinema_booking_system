@@ -8,7 +8,6 @@ export default function LoginForm({signIn, setUser}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate  = useNavigate()
     const onSubmit = data => signIn(data, setUser, navigate);
-    console.log(errors);
     
     return (
       <div>

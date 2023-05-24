@@ -3,19 +3,20 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import "./Style.css";
 import SeatMap from "../components/reservations/SeatMap";
+import DefaultButton from "../components/buttons/DefaultButton"
 
 const loadMovieScreening = async (id, setMovieScreening) => {
-    
+
     let result = await fetch("http://localhost:8080/anon/screenings/" + id, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
         credentials: "include",
         mode: "cors",
         referrerPolicy: "no-referrer",
         origin: "http://localhost:3000/",
-      });
+    });
 
     if (result.status === 200) {
         console.log("Success.");
@@ -30,13 +31,13 @@ const loadReservations = async (id, setReservations) => {
     let result = await fetch("http://localhost:8080/anon/reservations/screening/" + id, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
         credentials: "include",
         mode: "cors",
         referrerPolicy: "no-referrer",
         origin: "http://localhost:3000/",
-      });
+    });
 
     if (result.status === 200) {
         console.log("Success.");
@@ -47,27 +48,105 @@ const loadReservations = async (id, setReservations) => {
     }
 }
 
+const calculateTotalSeats = (chosenSeats) => chosenSeats.length
+
+const calculatePrice = (basePrice, row, totalRows) => {
+    return basePrice + basePrice * (totalRows - row) / totalRows
+}
+
+const calculateTotalPrice = (chosenSeats, movieScreening) => {
+    const basePrice = movieScreening.basePrice
+    const totalRows = movieScreening.cinemaHall.rows
+    return chosenSeats.map(seat => calculatePrice(basePrice, seat.row, totalRows)).reduce((a, b) => a + b, 0)
+}
+
+const constructJSON = (chosenSeats, movieScreening) => {
+    return chosenSeats.map(seat => {
+        return {
+            seatRow: seat["row"],
+            seatColumn: seat["column"],
+            movieScreening: {
+                "id": movieScreening["id"]
+            }
+        }
+    })
+}
+
+// TODO: error handling and empty input handling
+const onConfirm = async (chosenSeats, movieScreening, navigate, setError) => {
+    const json = constructJSON(chosenSeats, movieScreening)
+    
+    let response = await fetch('http://localhost:8080/user/reservations/pdf', {
+        method: 'POST',
+        body: JSON.stringify(json),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        mode: 'cors',
+        referrerPolicy: 'no-referrer',
+        origin: "http://localhost:3000/",
+    });
+
+    if (response.status == 200) {
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+
+        navigate("/")
+        console.log("success")
+    } else {
+        setError(true)
+        console.log("error")
+    }
+
+}
+
 const MakeReservation = () => {
     const [movieScreening, setMovieScreening] = useState()
     const [reservations, setReservations] = useState([])
-    const [chosenSeats, setChosenSeats] = useState([]) 
+    const [chosenSeats, setChosenSeats] = useState([])
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [totalSeats, setTotalSeats] = useState(0)
+    const [error, setError] = useState(false)
     const navigate = useNavigate()
     const location = useLocation();
     const state = location.state;
 
     useEffect(() => {
         let screeningId = state["id"]
-        console.log(screeningId)
         loadMovieScreening(screeningId, setMovieScreening)
         loadReservations(screeningId, setReservations)
     }, []);
 
+    useEffect(() => {
+        if (movieScreening != null) {
+            setTotalPrice(calculateTotalPrice(chosenSeats, movieScreening))
+            setTotalSeats(calculateTotalSeats(chosenSeats))
+        }
+
+    }, [chosenSeats]);
 
     return (
         <div className="body-container">
             <div className="main-container">
-                {/* TODO: the rest of the page - overall price, number of seats, details of the screening, confirm button */}
-                <SeatMap reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats}/>
+                <div class="centered-div">
+                    {error ? <p style={{ color: "red" }}>Error occured!</p> : <></>}
+                </div>
+                <div className="summary-container">
+                    <div class="row">
+                        <div class="left-text">Total seats</div>
+                        <div class="right-text">{totalSeats}</div>
+                    </div>
+                    <div class="row">
+                        <div class="left-text">Total price</div>
+                        <div class="right-text">${totalPrice}</div>
+                    </div>
+                </div>
+                <SeatMap reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} />
+                <div class="centered-div">
+                    <DefaultButton onClick={() => onConfirm(chosenSeats, movieScreening, navigate, setError)} color={"success"} text={"Confirm"} />
+                </div>
             </div>
         </div>
     )

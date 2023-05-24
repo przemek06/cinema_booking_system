@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
+
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
@@ -28,4 +30,10 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleNoSuchUserException(NoSuchUserException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler({IOException.class})
+    public ResponseEntity<String> handleIOException(IOException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
+
