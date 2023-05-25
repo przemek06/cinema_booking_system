@@ -55,10 +55,13 @@ const calculatePrice = (basePrice, row, totalRows) => {
 }
 
 const calculateTotalPrice = (chosenSeats, movieScreening) => {
-    const basePrice = movieScreening.basePrice
-    const totalRows = movieScreening.cinemaHall.rows
-    return chosenSeats.map(seat => calculatePrice(basePrice, seat.row, totalRows)).reduce((a, b) => a + b, 0)
-}
+    if (movieScreening && movieScreening.cinemaHall) {
+      const basePrice = movieScreening.basePrice;
+      const totalRows = movieScreening.cinemaHall.rows;
+      return chosenSeats.map(seat => calculatePrice(basePrice, seat.row, totalRows)).reduce((a, b) => a + b, 0);
+    }
+    return 0;
+};
 
 const constructJSON = (chosenSeats, movieScreening) => {
     return chosenSeats.map(seat => {
@@ -121,7 +124,7 @@ const loadPDF = async (json) => {
 }
 
 const MakeReservation = () => {
-    const [movieScreening, setMovieScreening] = useState()
+    const [movieScreening, setMovieScreening] = useState({})
     const [reservations, setReservations] = useState([])
     const [chosenSeats, setChosenSeats] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
@@ -143,7 +146,7 @@ const MakeReservation = () => {
             setTotalSeats(calculateTotalSeats(chosenSeats))
         }
 
-    }, [chosenSeats]);
+    }, [chosenSeats, movieScreening]);
 
     return (
         <div className="body-container">
@@ -161,7 +164,7 @@ const MakeReservation = () => {
                         <div class="right-text">${totalPrice}</div>
                     </div>
                 </div>
-                <SeatMap reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} />
+                <SeatMap reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={10} columns={10}/>
                 <div class="centered-div">
                     <DefaultButton onClick={() => onConfirm(chosenSeats, movieScreening, navigate, setError)} color={"success"} text={"Confirm"} />
                 </div>

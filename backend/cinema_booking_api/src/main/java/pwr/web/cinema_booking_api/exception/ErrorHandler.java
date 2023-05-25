@@ -13,6 +13,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({RecordNotFoundException.class})
     public ResponseEntity<String> handleRecordNotFoundException(RecordNotFoundException ex){
+        System.out.println("error");
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -28,6 +29,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({NoSuchUserException.class})
     public ResponseEntity<String> handleNoSuchUserException(NoSuchUserException ex){
+        System.out.println("error2");
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
