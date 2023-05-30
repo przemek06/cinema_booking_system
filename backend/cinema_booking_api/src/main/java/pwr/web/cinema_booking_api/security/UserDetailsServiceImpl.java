@@ -24,16 +24,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        initUser("admin@gmail.com", "pass1", "ADMIN");
-        initUser("user@gmail.com", "pass2", "USER");
+        initUser("admin@gmail.com", "pass1", "ADMIN", "Jon Doe");
+        initUser("user@gmail.com", "pass2", "USER", "Joe Doe");
     }
 
-    private void initUser(String email, String password, String role) {
+    private void initUser(String email, String password, String role, String fullName) {
         if (!userRepository.existsByEmail(email)) {
             User user = new User();
             user.setEmail(email);
             user.setPassword(passwordEncoder.encode(password));
             user.setRole(role);
+            user.setFullName(fullName);
 
             userRepository.save(user);
         }

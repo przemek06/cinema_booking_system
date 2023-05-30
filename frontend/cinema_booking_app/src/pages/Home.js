@@ -3,10 +3,11 @@ import DateButtonList from "../components/calendar/DateButtonList";
 import DefaultButton from "../components/buttons/DefaultButton";
 import "./Style.css";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AddScreeningDialog from "../components/movies/AddScreeningDialog";
 
 const loadMovieCards = async (chosenDate, setMovieCards) => {
-    let result = await fetch("http://localhost:8080/anon/screenings/"+chosenDate.getTime().toString(), {
+    let result = await fetch("http://localhost:8080/anon/screenings/date/"+chosenDate.getTime().toString(), {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -34,6 +35,10 @@ const mapDatesToHours = (dates) => {
     })
 }
 
+const onHourButtonClick = (navigate, id) => {
+    navigate("/reservations", {state: {"id": id}})
+}
+
 function groupBy(list, keyGetter) {
     const map = new Map();
     list.forEach((item) => {
@@ -50,6 +55,7 @@ function groupBy(list, keyGetter) {
 
 const MovieCardList = ({movieCards}) => {
     const movieGroups = groupBy(movieCards, card => card["movie"]["id"])
+    const navigate = useNavigate()
 
     return (
         <>
@@ -57,6 +63,7 @@ const MovieCardList = ({movieCards}) => {
                 const group = movieGroups.get(key)
                 const card = group[0]
                 const hours = group.map(card => card["screeningDate"])
+                const screeningIds = group.map(card => card["id"])
                 return <MovieCard 
                     id={card["movie"]["id"]}
                     image={card["movie"]["image"]} 
@@ -64,6 +71,8 @@ const MovieCardList = ({movieCards}) => {
                     duration={card["movie"]["duration"]} 
                     overview={card["movie"]["overview"]} 
                     hours={mapDatesToHours(hours)}
+                    screeningIds={screeningIds}
+                    onButtonClick = {(id) => onHourButtonClick(navigate, id)}
                 />
             })}
         </>

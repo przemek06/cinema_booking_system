@@ -46,8 +46,6 @@ public class UserService {
     public long getId() throws NoSuchUserException {
         Authentication authentication = getAuthentication();
 
-        System.out.println();
-
         if (authentication.getPrincipal() instanceof UserDetailsImpl) {
             return ((UserDetailsImpl)authentication.getPrincipal()).getId();
         }

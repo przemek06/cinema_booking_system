@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pwr.web.cinema_booking_api.dto.MovieScreeningDTO;
 import pwr.web.cinema_booking_api.exception.BadDateException;
+import pwr.web.cinema_booking_api.exception.RecordNotFoundException;
 import pwr.web.cinema_booking_api.service.MovieScreeningService;
 
 import java.util.Date;
@@ -25,7 +26,13 @@ public class MovieScreeningController {
         return movieScreeningService.getMovieScreenings();
     }
 
-    @GetMapping("/anon/screenings/{date}")
+    @GetMapping("/anon/screenings/{id}")
+    public MovieScreeningDTO getMovieScreeningById(@PathVariable long id) throws RecordNotFoundException {
+        return movieScreeningService.getMovieScreeningById(id);
+    }
+
+
+    @GetMapping("/anon/screenings/date/{date}")
     public List<MovieScreeningDTO> getMovieScreeningsByDate(@PathVariable long date) {
         return movieScreeningService.getMovieScreeningsByDate(new Date(date));
     }
