@@ -30,7 +30,7 @@ function App() {
               <Route path='/movie/add' element={<AddMovie />} />
               <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"}/>} />
               <Route path="/halls" element={<CinemaHalls />} />
-              <Route path="/reservations" element={<MakeReservation />} />
+              <Route path="/reservations" element={<MakeReservation isUser={user === "ROLE_USER"}/>}  />
             </Route>
           </Routes>
         </BrowserRouter>

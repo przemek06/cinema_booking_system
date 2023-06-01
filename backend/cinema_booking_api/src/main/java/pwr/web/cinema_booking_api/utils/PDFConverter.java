@@ -1,7 +1,6 @@
 package pwr.web.cinema_booking_api.utils;
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -10,10 +9,11 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Random;
 
 public class PDFConverter {
 
-    public static OutputStream convertHtmlToPdf(String html) throws IOException {
+    public static OutputStream convertHtmlToPdf(String html, long id) throws IOException {
         OutputStream outputStream = new ByteArrayOutputStream();
         Document document = new Document();
 
@@ -74,5 +74,17 @@ public class PDFConverter {
         }
 
         return mergedPdfOutputStream;
+    }
+
+    public static String randomNumber() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 12; i++) {
+            int randomNumber = random.nextInt();
+            sb.append(randomNumber).append(" ");
+        }
+
+        return sb.toString().trim();
     }
 }

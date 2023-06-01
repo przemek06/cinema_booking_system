@@ -6,7 +6,11 @@ import React from 'react';
 import "./SeatMap.css"
 
 const SeatMap = ({ reservations, chosenSeats, setChosenSeats, rows, columns }) => {
-    const handleClick = (seatRow, seatColumn) => {
+    const handleClick = (seatRow, seatColumn, isReserved) => {
+        if (isReserved) {
+            return
+        }
+        
         const seat = { row: seatRow, column: seatColumn };
         const seatIndex = chosenSeats.findIndex (
         (chosenSeat) =>
@@ -29,14 +33,6 @@ const SeatMap = ({ reservations, chosenSeats, setChosenSeats, rows, columns }) =
         <hr className='line'/>
         <div className="screen">Screen</div>
         <div className="seat-map">
-            {reservations.map((reservation) => (
-            <div
-                key={`seat-${reservation.seatRow}-${reservation.seatColumn}`}
-                className="reserved-seat"
-            >
-                {reservation.seatRow}-{reservation.seatColumn}
-            </div>
-            ))}
             {Array.from({ length: rows }, (_, row) => (
             <div className="seat-row" key={`row-${row + 1}`}>
                 <div className='row-no'>{row + 1}</div>
@@ -47,19 +43,29 @@ const SeatMap = ({ reservations, chosenSeats, setChosenSeats, rows, columns }) =
                     (chosenSeat) =>
                     chosenSeat.row === seatRow && chosenSeat.column === seatColumn
                 );
+                
                 const isReserved = reservations.some(
-                    (reservation) =>
-                    reservation.seatRow === seatRow &&
-                    reservation.seatColumn === seatColumn
+                    (reservation) => {
+    
+                        return parseInt(reservation.seatRow, 10) === parseInt(seatRow, 10) && parseInt(reservation.seatColumn, 10) === parseInt(seatColumn, 10)
+                    }
                 );
 
+                if (isReserved) {
+                    console.log(seatRow)
+                    console.log(seatColumn)
+                    console.log("====================")
+
+                }
+                
+                
                 return (
                     <div
                     key={`seat-${seatRow}-${seatColumn}`}
                     className={`seat ${isSelected ? 'selected' : ''} ${
                         isReserved ? 'reserved' : ''
                     }`}
-                    onClick={() => handleClick(seatRow, seatColumn)}> {seatColumn} </div>
+                    onClick={() => handleClick(seatRow, seatColumn, isReserved)}> {seatColumn} </div>
                 );
                 })}
                 <div className='row-no'>{row + 1}</div>

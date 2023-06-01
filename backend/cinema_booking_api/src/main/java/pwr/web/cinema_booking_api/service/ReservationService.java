@@ -47,7 +47,7 @@ public class ReservationService {
     }
 
     private boolean incompatibleMovieScreenings(List<ReservationDTO> reservationDTOs) {
-        return reservationDTOs.stream().map(r -> r.getMovieScreening().getId()).count() != 1;
+        return reservationDTOs.stream().map(r -> r.getMovieScreening().getId()).distinct().count() != 1;
     }
 
     private long extractMovieScreeningId(List<ReservationDTO> reservationDTOs) throws BadReservationsException {
@@ -150,7 +150,7 @@ public class ReservationService {
 
     private OutputStream getReservationPDF(Reservation reservation) throws IOException {
         String html = generateHTML(reservation);
-        return PDFConverter.convertHtmlToPdf(html);
+        return PDFConverter.convertHtmlToPdf(html, reservation.getId());
     }
 
     public InputStreamResource getReservationsPDF(List<ReservationDTO> reservationDTOs) throws RecordNotFoundException, IOException {
