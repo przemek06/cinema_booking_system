@@ -64,7 +64,7 @@ const calculateTotalPrice = (chosenSeats, movieScreening) => {
 };
 
 const constructJSON = (chosenSeats, movieScreening) => {
-    return chosenSeats.map(seat => {
+    const reservations = chosenSeats.map(seat => {
         return {
             seatRow: seat["row"],
             seatColumn: seat["column"],
@@ -73,6 +73,8 @@ const constructJSON = (chosenSeats, movieScreening) => {
             }
         }
     })
+
+    return { "reservations": reservations }
 }
 
 // TODO: error handling and empty input handling
@@ -92,7 +94,8 @@ const onConfirm = async (chosenSeats, movieScreening, navigate, setError) => {
     });
 
     if (response.status == 200) {
-        const blob = await loadPDF(json)
+        // loading pdf and opening in different page
+        const blob = await loadPDF(await response.json())
         if (blob != null) {
             const url = URL.createObjectURL(blob);
             window.open(url, '_blank');
@@ -123,8 +126,8 @@ const loadPDF = async (json) => {
 
 }
 
-const MakeReservation = () => {
-    const [movieScreening, setMovieScreening] = useState({})
+const MakeReservation = ({isUser}) => {
+    const [movieScreening, setMovieScreening] = useState()
     const [reservations, setReservations] = useState([])
     const [chosenSeats, setChosenSeats] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
@@ -135,6 +138,9 @@ const MakeReservation = () => {
     const state = location.state;
 
     useEffect(() => {
+        if (!isUser) {
+            navigate("/")
+        }
         let screeningId = state["id"]
         loadMovieScreening(screeningId, setMovieScreening)
         loadReservations(screeningId, setReservations)
@@ -161,10 +167,10 @@ const MakeReservation = () => {
                     </div>
                     <div class="row">
                         <div class="left-text">Total price</div>
-                        <div class="right-text">${totalPrice}</div>
+                        <div class="right-text">${totalPrice.toFixed(2)}</div>
                     </div>
                 </div>
-                <SeatMap reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={10} columns={10}/>
+                {movieScreening === undefined ? <></> : <SeatMap  reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={movieScreening.cinemaHall.rows} columns={movieScreening.cinemaHall.columns}/>}
                 <div class="centered-div">
                     <DefaultButton onClick={() => onConfirm(chosenSeats, movieScreening, navigate, setError)} color={"success"} text={"Confirm"} />
                 </div>

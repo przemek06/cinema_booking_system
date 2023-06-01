@@ -7,11 +7,10 @@ const Logout = ({removeUser}) => {
 
     useEffect(() => {
         removeUser()
-        navigate("/")
     });
 
     return (
-        <></>
+        <>      </>
     );
 }
 

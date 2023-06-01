@@ -8,10 +8,15 @@
     justify-content: center;
   }
   
-  .reserved-seat {
+  .seat.reserved {
     background-color: #9D5C63;
     color: #fff;
     padding: 5px;
+
+  }
+
+  .seat.reserved:hover {
+    cursor: not-allowed;
   }
   
   .seat {

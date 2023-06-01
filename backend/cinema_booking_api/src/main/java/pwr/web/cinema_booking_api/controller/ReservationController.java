@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import pwr.web.cinema_booking_api.dto.ReservationDTO;
+import pwr.web.cinema_booking_api.dto.ReservationWrapperDTO;
 import pwr.web.cinema_booking_api.exception.BadReservationsException;
 import pwr.web.cinema_booking_api.exception.NoSuchUserException;
 import pwr.web.cinema_booking_api.exception.RecordNotFoundException;
@@ -25,9 +26,9 @@ public class ReservationController {
     }
 
     @PostMapping("/user/reservations")
-    public List<ReservationDTO> createReservations(@RequestBody List<ReservationDTO> reservationDTOs)
+    public List<ReservationDTO> createReservations(@RequestBody ReservationWrapperDTO reservationWrapper)
             throws RecordNotFoundException, BadReservationsException, NoSuchUserException {
-        return reservationService.createReservations(reservationDTOs);
+        return reservationService.createReservations(reservationWrapper.getReservations());
     }
 
     @GetMapping("/user/reservations")

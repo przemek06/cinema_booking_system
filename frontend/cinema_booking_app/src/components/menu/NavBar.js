@@ -2,15 +2,18 @@ import { Outlet } from "react-router-dom";
 import {MDBIcon } from 'mdb-react-ui-kit';
 import "./NavBar.css"
 import BottomMenu from "./BottomMenu"
+import { useNavigate } from 'react-router-dom';
 
-const onLogout = (removeUser) => {
+const onLogout = (removeUser, navigate) => {
     removeUser()
-    window.location.reload(false);
+    navigate("/")
+    window.location.reload(false)
 }
 
 const NavBar = ({user, removeUser}) => {
+    const navigate = useNavigate()
 
-    const logout = () => onLogout(removeUser)
+    const logout = () => onLogout(removeUser, navigate)
 
     return (
         <>
