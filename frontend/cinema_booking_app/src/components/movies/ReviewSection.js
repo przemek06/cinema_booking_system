@@ -1,6 +1,6 @@
 import Review from "./Review"
 
-const ReviewSection = ({ reviews }) => {
+const ReviewSection = ({ reviews, userId, deleteReview }) => {
     return (
         <div>
             {reviews.length > 0 ? <h3>Reviews</h3> : <></>}
@@ -10,6 +10,8 @@ const ReviewSection = ({ reviews }) => {
                     username={review.user.fullName}
                     description={review.description}
                     rating={review.rating}
+                    isOwner={userId == review.user.id}
+                    deleteReview = {() => deleteReview(review.id)}
                 />
             ))}
         </div>

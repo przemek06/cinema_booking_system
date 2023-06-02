@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pwr.web.cinema_booking_api.dto.UserDTO;
+import pwr.web.cinema_booking_api.exception.NoSuchUserException;
 import pwr.web.cinema_booking_api.service.UserService;
 
 import java.util.List;
@@ -29,6 +30,11 @@ public class UserController {
     @GetMapping("/anon/role")
     public String getRole() {
         return userService.getRole();
+    }
+
+    @GetMapping("/anon/id")
+    public long getId() throws NoSuchUserException {
+        return userService.getId();
     }
 
     @PostMapping("/anon/users")
