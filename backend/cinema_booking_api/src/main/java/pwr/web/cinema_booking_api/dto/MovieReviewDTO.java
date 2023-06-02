@@ -22,8 +22,8 @@ public class MovieReviewDTO {
     public MovieReview toEntity() {
         return MovieReview.builder()
                 .id(id)
-                .movie(movie.toEntity())
-                .user(user.toEntity())
+                .movie(movie != null ? movie.toEntity() : null)
+                .user(user != null ? user.toEntity() : null)
                 .rating(rating)
                 .description(description)
                 .build();

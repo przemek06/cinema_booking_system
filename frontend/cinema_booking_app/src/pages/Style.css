@@ -100,4 +100,17 @@
     text-align: center;
     padding-top: 5px;
 }
+
+.sub-container {
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.sub-container h4 {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
   
+.review {
+    padding-left: 5px;
+}

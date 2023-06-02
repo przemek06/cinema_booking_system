@@ -28,7 +28,7 @@ function App() {
               <Route path='/logout' element={<Logout removeUser={removeUser}  />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/movie/add' element={<AddMovie />} />
-              <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"}/>} />
+              <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"} isUser={user === "ROLE_USER"}/>} />
               <Route path="/halls" element={<CinemaHalls />} />
               <Route path="/reservations" element={<MakeReservation isUser={user === "ROLE_USER"}/>}  />
             </Route>

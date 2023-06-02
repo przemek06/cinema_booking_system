@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import { useLocation } from 'react-router-dom';
 import DefaultButton from "../components/buttons/DefaultButton";
 import { useNavigate } from "react-router-dom";
+import ReviewInput from "../components/movies/ReviewInput"
+import ReviewSection from "../components/movies/ReviewSection"
 
 const image = (movieDetails) => movieDetails == null ? null : movieDetails["image"]
 const title = (movieDetails) => movieDetails == null ? null : movieDetails["title"]
@@ -16,7 +18,7 @@ const description = (movieDetails) => movieDetails == null ? null : movieDetails
 
 const makeListElement = actor => <li><Typography variant="subtitle2" color="text.secondary" component="div">{actor}</Typography></li>
 
-const loadMovieDetails = async (id, setMovieDetails) => {
+const loadMovieDetails = async (id, setMovieDetails, navigate) => {
 
     let result = await fetch("http://localhost:8080/anon/movies/"+id, {
         method: "GET",
@@ -34,7 +36,8 @@ const loadMovieDetails = async (id, setMovieDetails) => {
         setMovieDetails(resultJSON);
         console.log("Success.");
     } else {
-        console.log("Could not load data.");
+        alert("Could not load data.");
+        navigate("/")
     }
 }
 
@@ -53,22 +56,78 @@ const deleteMovie = async (id, navigate) => {
     if (result.status === 200) {
         console.log("Success.");
         navigate("/")
-        
+
     } else {
-        console.log("Could not delete.");
-        //TODO implement pls
+        alert("Could not delete.");
     }
 }
 
-const MovieDetails = ({isAdmin}) => {
+const submitReview = async (review) => {
+    let result = await fetch("http://localhost:8080/user/review", {
+        method: "POST",
+        body: JSON.stringify(review),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+        referrerPolicy: "no-referrer",
+        origin: "http://localhost:3000/",
+      });
+
+    if (result.status === 200) {
+        console.log("Success.");
+        window.location.reload(false);
+
+    } else {
+        alert("Couldn't submit the review")
+    }
+}
+
+const loadReviews = async (movieId, setReviews) => {
+    let result = await fetch("http://localhost:8080/anon/review/movie/"+movieId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+        referrerPolicy: "no-referrer",
+        origin: "http://localhost:3000/",
+      });
+
+    if (result.status === 200) {
+        const resultJSON = await result.json();
+        setReviews(resultJSON);
+        console.log("Success.");
+    } else {
+        alert("Could not load reviews.");
+    }
+}
+
+const calculateRating = (reviews) => reviews.reduce((acc, cur) => acc + cur.rating, 0)/reviews.length
+const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push('★');
+      } else {
+        stars.push('☆');
+      }
+    }
+    return stars.join('');
+  };
+const MovieDetails = ({isAdmin, isUser}) => {
 
     const [movieDetails, setMovieDetails] = useState()
+    const [reviews, setReviews] = useState([])
     const navigate = useNavigate()
     const location = useLocation();
     const state = location.state;
 
     useEffect(() => {
-        loadMovieDetails(state["id"], setMovieDetails)
+        loadMovieDetails(state["id"], setMovieDetails, navigate)
+        loadReviews(state["id"], setReviews)
     }, []);
 
     return (
@@ -90,6 +149,9 @@ const MovieDetails = ({isAdmin}) => {
                             {category(movieDetails)}
                         </Typography>
                         <Typography variant="subtitle2" color="text.secondary" component="div">
+                            {renderStars(calculateRating(reviews))}
+                        </Typography>
+                        <Typography variant="subtitle2" color="text.secondary" component="div">
                             {duration(movieDetails)} min
                         </Typography>
                         <ul className="actors-ul">
@@ -106,7 +168,12 @@ const MovieDetails = ({isAdmin}) => {
                         {description(movieDetails)}
                     </p>
                 </div>
-                { isAdmin ? <DefaultButton onClick = {() => deleteMovie(state["id"], navigate)} color="error" text="Delete"/> : <></> }
+                <div className="sub-container">
+                    { isAdmin ? <DefaultButton onClick = {() => deleteMovie(state["id"], navigate)} color="error" text="Delete"/> : <></> }
+                    { isUser && movieDetails != null ? <ReviewInput onSubmit={submitReview} movieId={movieDetails.id}/> : <></> }
+
+                    <ReviewSection reviews={reviews} />
+                </div>
             </div>
         </div>
     );

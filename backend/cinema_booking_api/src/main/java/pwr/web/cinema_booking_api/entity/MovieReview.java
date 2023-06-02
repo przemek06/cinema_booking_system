@@ -36,8 +36,8 @@ public class MovieReview {
     public MovieReviewDTO toDTO() {
         return MovieReviewDTO.builder()
                 .id(id)
-                .movie(movie.toDto())
-                .user(user.toDto())
+                .movie(movie != null ? movie.toDto() : null)
+                .user(user != null ? user.toDto() : null)
                 .rating(rating)
                 .description(description)
                 .build();
