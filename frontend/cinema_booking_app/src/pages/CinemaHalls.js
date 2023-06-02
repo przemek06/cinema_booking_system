@@ -46,7 +46,7 @@ const loadCinemaHalls = async (setRows) => {
         const resultJSON = await result.json();
         setRows(resultJSON);
       } else {
-        console.log("Could not load more data.");
+        alert("Could not load more data.");
       }
 }
 
@@ -70,7 +70,7 @@ const onDeleteButtonClick = async (selected, setRows) => {
         console.log("Success.");
         loadCinemaHalls(setRows) 
       } else {
-        console.log("Could not delete.");
+        alert("Could not delete.");
       }
 }
 
@@ -97,8 +97,7 @@ const onConfirm = async (formData, setRows) => {
         console.log("success")
         loadCinemaHalls(setRows) 
       } else {
-        // TODO popup about an error
-        console.log("error")
+        alert("Could not add cinema hall.")
       }
 }
 

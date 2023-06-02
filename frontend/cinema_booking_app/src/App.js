@@ -5,6 +5,7 @@ import LogIn from "./pages/LogIn";
 import Logout from "./pages/Logout";
 import SignUp from "./pages/SignUp";
 import About from "./pages/About";
+import Profile from "./pages/Profile";
 import MovieDetails from "./pages/MovieDetails";
 import NavBar from "./components/menu/NavBar";
 import Footer from './components/Footer';
@@ -28,9 +29,10 @@ function App() {
               <Route path='/logout' element={<Logout removeUser={removeUser}  />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/movie/add' element={<AddMovie />} />
-              <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"}/>} />
+              <Route path="/movie/details" element={<MovieDetails isAdmin={user === "ROLE_ADMIN"} isUser={user === "ROLE_USER"}/>} />
               <Route path="/halls" element={<CinemaHalls />} />
               <Route path="/reservations" element={<MakeReservation isUser={user === "ROLE_USER"}/>}  />
+              <Route path="/profile" element={<Profile />} />
             </Route>
           </Routes>
         </BrowserRouter>
