@@ -28,6 +28,14 @@ const mapRows = (rowsJSON) => {
     }
 }
 
+const handleRowClick = (param, event) => {
+  event.stopPropagation();
+};
+
+const handleCellClick = (param, event) => {
+  event.stopPropagation();
+};
+
 const loadReservations = async (setRows) => {
     let result = await fetch("http://localhost:8080/user/reservations", {
         method: "GET",
@@ -96,6 +104,8 @@ const Profile = () => {
                 paginationModel={{ page: 0, pageSize: 10 }}
                 checkboxSelection
                 onRowSelectionModelChange={setSelected}
+                onRowClick={handleRowClick}
+                onCellClick={handleCellClick}
             />
         </div>
     )

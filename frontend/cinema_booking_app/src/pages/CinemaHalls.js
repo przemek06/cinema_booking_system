@@ -8,8 +8,8 @@ import "./Style.css"
 const columns = [
     { field: 'col1', headerName: 'ID', width: 50 },
     { field: 'col2', headerName: 'Hall name', width: 150 },
-    { field: 'col3', headerName: 'No of rows', width: 100 },
-    { field: 'col4', headerName: 'No of columns', width: 100},
+    { field: 'col3', headerName: 'Rows', width: 100 },
+    { field: 'col4', headerName: 'Columns', width: 100},
     { field: 'col5', headerName: 'Description', width: 300 },
 ]
 

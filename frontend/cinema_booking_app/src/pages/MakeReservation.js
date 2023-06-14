@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import "./Style.css";
 import SeatMap from "../components/reservations/SeatMap";
-import DefaultButton from "../components/buttons/DefaultButton"
+import Button from '@mui/material/Button';
 
 const loadMovieScreening = async (id, setMovieScreening) => {
 
@@ -158,9 +158,12 @@ const MakeReservation = ({isUser}) => {
         <div className="body-container">
             <div className="main-container">
                 <div class="centered-div">
-                    {error ? <p style={{ color: "red" }}>Error occured!</p> : <></>}
+                    {error ? <p style={{ color: "red" }}>Please select available seats from the seating map</p> : <></>}
                 </div>
                 <div className="summary-container">
+                    <h2 className="movie-info">{movieScreening === undefined ? <></> : movieScreening.movie.title}</h2>
+                    <h2 className="movie-info">{movieScreening === undefined ? <></> : movieScreening.screeningDate}</h2>
+                    <h2 className="movie-info">Cinema hall: {movieScreening === undefined ? <></> : movieScreening.cinemaHall.id}</h2>
                     <div class="row">
                         <div class="left-text">Total seats</div>
                         <div class="right-text">{totalSeats}</div>
@@ -172,7 +175,11 @@ const MakeReservation = ({isUser}) => {
                 </div>
                 {movieScreening === undefined ? <></> : <SeatMap  reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={movieScreening.cinemaHall.rows} columns={movieScreening.cinemaHall.columns}/>}
                 <div class="centered-div">
-                    <DefaultButton onClick={() => onConfirm(chosenSeats, movieScreening, navigate, setError)} color={"success"} text={"Confirm"} />
+                    <Button
+                        variant="outlined"
+                        style={{margin: '10px', color: '#9D5C63', backgroundColor: '#FFFFFF', borderColor: '#9D5C63', borderRadius: 0 }}
+                        onClick={() => onConfirm(chosenSeats, movieScreening, navigate, setError)} color={"success"} text={"Confirm"}
+                    > Confirm </Button>
                 </div>
             </div>
         </div>

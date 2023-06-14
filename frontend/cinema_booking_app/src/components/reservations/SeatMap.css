@@ -9,8 +9,8 @@
   }
   
   .seat.reserved {
-    background-color: #9D5C63;
-    color: #fff;
+    color: #ffffff;
+    background-color: #b4b4b4;
     padding: 5px;
 
   }
@@ -33,14 +33,14 @@
   
   .seat.selected {
     margin: 2px;
-    color: #ffffff;
-    background-color: #b4b4b4;
+    color: #fff;
+    background-color: #9D5C63;
     border-radius: 0px;
   }
   
   .seat.reserved.selected {
-    background-color: #9D5C63;
-    color: #fff;
+    color: #ffffff;
+    background-color: #b4b4b4;
     padding: 5px;
   }
 

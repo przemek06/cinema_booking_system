@@ -35,8 +35,10 @@ const mapDatesToHours = (dates) => {
     })
 }
 
-const onHourButtonClick = (navigate, id) => {
-    navigate("/reservations", {state: {"id": id}})
+const onHourButtonClick = (navigate, id, isUser) => {
+    if (isUser) {
+        navigate("/reservations", {state: {"id": id}})
+    }
 }
 
 function groupBy(list, keyGetter) {
@@ -53,7 +55,7 @@ function groupBy(list, keyGetter) {
     return map;
 }
 
-const MovieCardList = ({movieCards}) => {
+const MovieCardList = ({movieCards, isUser}) => {
     const movieGroups = groupBy(movieCards, card => card["movie"]["id"])
     const navigate = useNavigate()
 
@@ -72,7 +74,7 @@ const MovieCardList = ({movieCards}) => {
                     overview={card["movie"]["overview"]} 
                     hours={mapDatesToHours(hours)}
                     screeningIds={screeningIds}
-                    onButtonClick = {(id) => onHourButtonClick(navigate, id)}
+                    onButtonClick = {(id) => onHourButtonClick(navigate, id, isUser)}
                 />
             })}
         </>
@@ -121,7 +123,7 @@ const constructJSON = (formData) => {
     }
 }
 
-const Home = ({isAdmin}) => {
+const Home = ({isAdmin, isUser}) => {
     const initDate = new Date()
     initDate.setHours(0,0,0,0)
     const [chosenDate, setDate] = useState(initDate)
@@ -137,7 +139,7 @@ const Home = ({isAdmin}) => {
             <AddScreeningDialog onConfirm = {(formData, onClose, onBadDate) => onConfirm(formData, chosenDate, setMovieCards, onClose, onBadDate)} onClose = {() => onClose(setOpen)} open = {open}/>
             <h1>Now playing</h1>
             <DateButtonList chosenDate={chosenDate} setDate={setDate} />
-            <MovieCardList movieCards={movieCards}/>
+            <MovieCardList movieCards={movieCards} isUser={isUser}/>
             { isAdmin ? <DefaultButton onClick = {() => setOpen(true)} color="success" text="Add screening"/> : <></> }
         </div>
     )

@@ -15,7 +15,7 @@ nav {
     float: left;
     color: white;
     font-size: 40px;
-    padding: 10px 10px 10px 10px;
+    padding: 10px 10px 10px 20px;
 }
 
 .logo:hover {
@@ -35,20 +35,20 @@ nav {
     color: white;
     padding: 5px;
     height: 100%;
-    margin-right: 15px;
+    margin-right: 20px;
     float: right;
 }
 
 .bottom-menu {
     margin-top: 40px;
-    margin-right: 5px;
     width: 100%;
+    margin-right: 20px;
 }
 
 .bottom-menu a {
     color: white;
     padding: 5px;
-    margin-right: 4px;
+    margin-left: 5px;
     height: 100%;
     text-decoration: none;
 }

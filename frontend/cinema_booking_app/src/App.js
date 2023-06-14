@@ -23,7 +23,7 @@ function App() {
           <BrowserRouter>
           <Routes>
             <Route path="/" element = {<NavBar user={user} removeUser = {removeUser}/>}>
-              <Route path='/' element={<Home isAdmin={user === "ROLE_ADMIN"} />} />
+              <Route path='/' element={<Home isAdmin={user === "ROLE_ADMIN"} isUser={user === "ROLE_USER"}/>} />
               <Route path='/about' element={<About />} />
               <Route path='/login' element={<LogIn setUser={setUser}  />} />
               <Route path='/logout' element={<Logout removeUser={removeUser}  />} />

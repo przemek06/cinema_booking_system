@@ -130,14 +130,15 @@ const calculateRating = (reviews) => reviews.reduce((acc, cur) => acc + cur.rati
 const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars.push('★');
-        } else {
-            stars.push('☆');
-        }
+      if (i <= rating) {
+        stars.push(<span key={i} style={{ color: 'yellow', textShadow: '0px 0px 1px black', display: 'inline-block', marginRight: '2px'}}>&#9733;</span>);
+      } else {
+        stars.push(<span key={i} style={{ color: 'black', display: 'inline-block', marginRight: '2px'}}>&#9734;</span>);
+      }
     }
-    return stars.join('');
-}
+    return stars;
+  };
+  
 
 const loadUserId = async (setUserId) => {
     let result = await fetch("http://localhost:8080/anon/id", {
