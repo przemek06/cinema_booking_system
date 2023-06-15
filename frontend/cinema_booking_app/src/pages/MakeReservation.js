@@ -48,6 +48,29 @@ const loadReservations = async (id, setReservations) => {
     }
 }
 
+const loadUserReservations = async (id, setReservedSeatsCount) => {
+    let result = await fetch("http://localhost:8080/user/reservations", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+        referrerPolicy: "no-referrer",
+        origin: "http://localhost:3000/",
+    });
+
+    if (result.status === 200) {
+        console.log("Success.");
+        const resultJSON = await result.json();
+        const thisScreening = resultJSON.filter(reservation => reservation.movieScreening.id === id);
+        const count = thisScreening.length;
+        setReservedSeatsCount(count);
+    } else {
+        console.log("Could not load data.");
+    }
+}
+
 const calculateTotalSeats = (chosenSeats) => chosenSeats.length
 
 const calculatePrice = (basePrice, row, totalRows) => {
@@ -127,6 +150,7 @@ const loadPDF = async (json) => {
 }
 
 const MakeReservation = ({isUser}) => {
+    const [reservedSeatsCount, setReservedSeatsCount] = useState(0);
     const [movieScreening, setMovieScreening] = useState()
     const [reservations, setReservations] = useState([])
     const [chosenSeats, setChosenSeats] = useState([])
@@ -144,6 +168,7 @@ const MakeReservation = ({isUser}) => {
         let screeningId = state["id"]
         loadMovieScreening(screeningId, setMovieScreening)
         loadReservations(screeningId, setReservations)
+        loadUserReservations(screeningId, setReservedSeatsCount)
     }, []);
 
     useEffect(() => {
@@ -172,8 +197,11 @@ const MakeReservation = ({isUser}) => {
                         <div class="left-text">Total price</div>
                         <div class="right-text">${totalPrice.toFixed(2)}</div>
                     </div>
+                    <div>
+                        {reservedSeatsCount}
+                    </div>
                 </div>
-                {movieScreening === undefined ? <></> : <SeatMap  reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={movieScreening.cinemaHall.rows} columns={movieScreening.cinemaHall.columns}/>}
+                {movieScreening === undefined ? <></> : <SeatMap  reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={movieScreening.cinemaHall.rows} columns={movieScreening.cinemaHall.columns} reservedSeatsCount={reservedSeatsCount} />}
                 <div class="centered-div">
                     <Button
                         variant="outlined"

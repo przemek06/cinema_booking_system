@@ -11,6 +11,7 @@ import NavBar from "./components/menu/NavBar";
 import Footer from './components/Footer';
 import CinemaHalls from './pages/CinemaHalls';
 import AddMovie from './pages/AddMovie';
+import AdminPanel from './pages/AdminPanel';
 import useLocalStorage, {userRoleKey} from './hooks/LocalStorageHook';
 import "./pages/Style.css";
 import MakeReservation from './pages/MakeReservation';
@@ -33,6 +34,7 @@ function App() {
               <Route path="/halls" element={<CinemaHalls />} />
               <Route path="/reservations" element={<MakeReservation isUser={user === "ROLE_USER"}/>}  />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/adminpanel" element={<AdminPanel />} />
             </Route>
           </Routes>
         </BrowserRouter>

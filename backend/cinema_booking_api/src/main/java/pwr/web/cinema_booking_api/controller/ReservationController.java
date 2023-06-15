@@ -41,6 +41,16 @@ public class ReservationController {
         return reservationService.findReservationsByMovieScreeningId(id);
     }
 
+    @GetMapping("/anon/reservations")
+    public List<ReservationDTO> getAllReservations() {
+        return reservationService.getAllReservations();
+    }
+
+    @PostMapping("/admin/reservations/delete/{id}")
+    public void deleteReservationAdmin(@PathVariable long id) {
+        reservationService.deleteReservationAdmin(id);
+    }
+
     @PostMapping("/user/reservations/delete/{id}")
     public void deleteReservation(@PathVariable long id) throws NoSuchUserException, UnauthorizedDeletionException, RecordNotFoundException {
         reservationService.deleteReservation(id);
