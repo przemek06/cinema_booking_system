@@ -197,9 +197,6 @@ const MakeReservation = ({isUser}) => {
                         <div class="left-text">Total price</div>
                         <div class="right-text">${totalPrice.toFixed(2)}</div>
                     </div>
-                    <div>
-                        {reservedSeatsCount}
-                    </div>
                 </div>
                 {movieScreening === undefined ? <></> : <SeatMap  reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={movieScreening.cinemaHall.rows} columns={movieScreening.cinemaHall.columns} reservedSeatsCount={reservedSeatsCount} />}
                 <div class="centered-div">

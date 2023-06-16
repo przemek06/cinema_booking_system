@@ -50,6 +50,7 @@ public class MovieScreeningService {
 
     public List<MovieScreeningDTO> getMovieScreeningsByDate(Date chosenDate) {
         Date dayEnd = getDayEnd(chosenDate);
+
         return movieScreeningRepository.getMovieScreeningsByScreeningDateBetween(chosenDate, dayEnd)
                 .stream()
                 .map(MovieScreening::toDto)

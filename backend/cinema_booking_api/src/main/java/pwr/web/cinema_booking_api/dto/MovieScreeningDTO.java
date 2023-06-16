@@ -10,6 +10,7 @@ import pwr.web.cinema_booking_api.entity.Movie;
 import pwr.web.cinema_booking_api.entity.MovieScreening;
 
 import java.util.Date;
+import java.util.Locale;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class MovieScreeningDTO {
     private Long id;
     private MovieDTO movie;
     private CinemaHallDTO cinemaHall;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm", timezone = "Poland")
     private Date screeningDate;
     private Integer basePrice;
 

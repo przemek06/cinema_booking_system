@@ -190,15 +190,15 @@ public class ReservationService {
         context.setVariable("movieTitle", reservation.getMovieScreening().getMovie().getTitle());
         context.setVariable("screeningDate", reservation.getMovieScreening().getScreeningDate());
 
-        String barcode = Base64.getEncoder().encodeToString(generateBarcode(reservation.getCode()));
-        context.setVariable("barcode", barcode);
 
         return templateEngine.process("reservation", context);
     }
 
     private OutputStream getReservationPDF(Reservation reservation) throws IOException {
         String html = generateHTML(reservation);
-        try (OutputStream os = PDFConverter.convertHtmlToPdf(html)) {
+        InputStream image = new ByteArrayInputStream(generateBarcode(reservation.getCode()));
+
+        try (OutputStream os = PDFConverter.convertHtmlToPdf(html, image)) {
             return os;
         }
     }

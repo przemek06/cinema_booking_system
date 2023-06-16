@@ -8,7 +8,8 @@ const columns = [
     { field: 'col2', headerName: 'Row', width: 40 },
     { field: 'col3', headerName: 'Column', width: 70 },
     { field: 'col4', headerName: 'Title', width: 200 },
-    { field: 'col5', headerName: 'Time', width: 200 }
+    { field: 'col5', headerName: 'Time', width: 200 },
+    { field: 'col6', headerName: 'Barcode', width: 150 }
 ]
 
 const mapRows = (rowsJSON) => {
@@ -20,7 +21,8 @@ const mapRows = (rowsJSON) => {
                 col2: json["seatRow"], 
                 col3: json["seatColumn"],
                 col4: json["movieScreening"]["movie"]["title"],
-                col5: json["movieScreening"]["screeningDate"]
+                col5: json["movieScreening"]["screeningDate"],
+                col6: json["code"]
             }
         })
     } else {
