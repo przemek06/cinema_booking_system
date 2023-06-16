@@ -213,10 +213,10 @@ const MovieDetails = ({ isAdmin, isUser }) => {
                     </p>
                 </div>
                 <div className="sub-container">
-                    {isAdmin ? <DefaultButton onClick={() => deleteMovie(state["id"], navigate)} color="error" text="Delete" /> : <></>}
+                    {/* {isAdmin ? <DefaultButton onClick={() => deleteMovie(state["id"], navigate)} color="error" text="Delete" /> : <></>} */}
                     {isUser && movieDetails != null && !alreadyReviewed(reviews, userId) ? <ReviewInput onSubmit={submitReview} movieId={movieDetails.id} /> : <></>}
 
-                    <ReviewSection reviews={reviews} userId={userId} deleteReview={deleteReview} />
+                    <ReviewSection isUser={isUser} reviews={reviews} userId={userId} deleteReview={deleteReview} />
                 </div>
             </div>
         </div>
