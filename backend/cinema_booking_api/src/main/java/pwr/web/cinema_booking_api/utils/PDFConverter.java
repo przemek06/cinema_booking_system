@@ -1,11 +1,16 @@
 package pwr.web.cinema_booking_api.utils;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
+import org.krysalis.barcode4j.impl.code128.Code128Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -13,7 +18,7 @@ import java.util.Random;
 
 public class PDFConverter {
 
-    public static OutputStream convertHtmlToPdf(String html, long id) throws IOException {
+    public static OutputStream convertHtmlToPdf(String html) throws IOException {
         OutputStream outputStream = new ByteArrayOutputStream();
         Document document = new Document();
 
@@ -37,6 +42,7 @@ public class PDFConverter {
 
         return outputStream;
     }
+
 
     public static OutputStream mergePdfDocuments(List<OutputStream> pdfFiles) throws IOException {
         ByteArrayOutputStream mergedPdfOutputStream = new ByteArrayOutputStream();
@@ -87,4 +93,6 @@ public class PDFConverter {
 
         return sb.toString().trim();
     }
+
+
 }

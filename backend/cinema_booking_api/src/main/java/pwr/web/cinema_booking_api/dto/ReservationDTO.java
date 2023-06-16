@@ -16,6 +16,7 @@ public class ReservationDTO {
     private MovieScreeningDTO movieScreening;
     private Integer seatRow;
     private Integer seatColumn;
+    private String code;
 
     public Reservation toEntity(){
         return Reservation.builder()
@@ -24,6 +25,7 @@ public class ReservationDTO {
                 .movieScreening(movieScreening.toEntity())
                 .seatRow(seatRow)
                 .seatColumn(seatColumn)
+                .code(code)
                 .build();
     }
 }
