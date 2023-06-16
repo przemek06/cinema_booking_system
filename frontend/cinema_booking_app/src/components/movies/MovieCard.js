@@ -30,7 +30,7 @@ export function MovieCard({id, image, title, duration, overview, hours, screenin
         alt="Movie poster"
       />
       <Box sx={{ display: 'flex', flexDirection: 'column'}}>
-        <CardContent sx={{ flex: '1 0 auto' }}>
+        <CardContent sx={{ flex: '0 0 auto' }}>
           <Typography component="div" variant="h5">
             <Link className='link' to="/movie/details" state={{"id": id}}>{title}</Link>
           </Typography>

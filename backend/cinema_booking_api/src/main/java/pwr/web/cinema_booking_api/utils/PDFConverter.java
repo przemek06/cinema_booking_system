@@ -1,10 +1,12 @@
 package pwr.web.cinema_booking_api.utils;
 
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.styledxmlparser.jsoup.Jsoup;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+import pwr.web.cinema_booking_api.pdf.ProfileImageReplacedElementFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -13,30 +15,31 @@ import java.util.Random;
 
 public class PDFConverter {
 
-    public static OutputStream convertHtmlToPdf(String html, long id) throws IOException {
+    public static OutputStream convertHtmlToPdf(String html, InputStream image) throws IOException {
         OutputStream outputStream = new ByteArrayOutputStream();
-        Document document = new Document();
 
         try {
-            // Create the document and PDFWriter
-            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
-            // Open the document
-            document.open();
+            com.itextpdf.styledxmlparser.jsoup.nodes.Document document = Jsoup.parse(html);
+            document.outputSettings().syntax(com.itextpdf.styledxmlparser.jsoup.nodes.Document.OutputSettings.Syntax.xml);
+            String xhtml = document.html();
 
-            // Read the HTML file and convert it to PDF
-            InputStream inputStream = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
-            XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream);
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.getSharedContext().setReplacedElementFactory(new ProfileImageReplacedElementFactory(renderer.getSharedContext().getReplacedElementFactory(), image));
+            renderer.setDocumentFromString(xhtml);
+            renderer.layout();
+            renderer.createPDF(outputStream);
 
         } catch (Exception e) {
            throw new IOException();
 
         } finally {
-            document.close();
+//            document.close();
         }
 
         return outputStream;
     }
+
 
     public static OutputStream mergePdfDocuments(List<OutputStream> pdfFiles) throws IOException {
         ByteArrayOutputStream mergedPdfOutputStream = new ByteArrayOutputStream();
@@ -87,4 +90,6 @@ public class PDFConverter {
 
         return sb.toString().trim();
     }
+
+
 }

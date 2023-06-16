@@ -6,18 +6,21 @@ const Review = ({ username, description, rating, isOwner, deleteReview }) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= rating) {
-        stars.push('★');
+        stars.push(<span key={i} style={{ color: 'yellow', textShadow: '0px 0px 1px black' }}>&#9733;</span>);
       } else {
-        stars.push('☆');
+        stars.push(<span key={i}>&#9734;</span>);
       }
     }
-    return stars.join('');
+    return stars;
   };
 
   return (
     <div>
       <hr />
-      <h4>{username} {isOwner ? <button onClick={deleteReview}> <RiDeleteBinLine /></button> : <></>} </h4>
+      <h4>
+        {username}
+        {isOwner ? <React.Fragment> {" "} <button onClick={deleteReview}> <RiDeleteBinLine /> </button> </React.Fragment> : null}
+      </h4>
       {renderStars()}
       <br />
       {description}

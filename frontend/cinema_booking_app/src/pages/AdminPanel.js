@@ -8,7 +8,8 @@ const columns = [
     { field: 'col2', headerName: 'Row', width: 40 },
     { field: 'col3', headerName: 'Column', width: 70 },
     { field: 'col4', headerName: 'Title', width: 200 },
-    { field: 'col5', headerName: 'Time', width: 200 }
+    { field: 'col5', headerName: 'Time', width: 200 },
+    { field: 'col6', headerName: 'Barcode', width: 150 }
 ]
 
 const mapRows = (rowsJSON) => {
@@ -20,7 +21,8 @@ const mapRows = (rowsJSON) => {
                 col2: json["seatRow"], 
                 col3: json["seatColumn"],
                 col4: json["movieScreening"]["movie"]["title"],
-                col5: json["movieScreening"]["screeningDate"]
+                col5: json["movieScreening"]["screeningDate"],
+                col6: json["code"]
             }
         })
     } else {
@@ -37,7 +39,7 @@ const handleCellClick = (param, event) => {
 };
 
 const loadReservations = async (setRows) => {
-    let result = await fetch("http://localhost:8080/user/reservations", {
+    let result = await fetch("http://localhost:8080/anon/reservations", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +64,7 @@ const onDeleteButtonClick = async (selected, setRows) => {
   
     for (const id of reservationIds) {
       let result = await fetch(
-        `http://localhost:8080/user/reservations/delete/${id}`,
+        `http://localhost:8080/admin/reservations/delete/${id}`,
         {
           method: "POST",
           headers: {
@@ -86,7 +88,7 @@ const onDeleteButtonClick = async (selected, setRows) => {
   };
   
 
-const Profile = () => {
+const AdminPanel = () => {
     const [rows, setRows] = useState([])
     const [selected, setSelected] = useState([])
 
@@ -111,4 +113,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default AdminPanel

@@ -1,5 +1,7 @@
 package pwr.web.cinema_booking_api.service;
 
+import org.krysalis.barcode4j.impl.code128.Code128Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,13 @@ import pwr.web.cinema_booking_api.exception.UnauthorizedDeletionException;
 import pwr.web.cinema_booking_api.repository.ReservationRepository;
 import pwr.web.cinema_booking_api.utils.PDFConverter;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +77,7 @@ public class ReservationService {
     private boolean anySeatOutsideRange(List<ReservationDTO> reservationDTOs, long movieScreeningId) throws RecordNotFoundException {
         CinemaHallDTO cinemaHall = extractCinemaHall(movieScreeningId);
 
-        return reservationDTOs.stream().anyMatch(r -> r.getSeatRow() < 0 || r.getSeatRow() > cinemaHall.getRows() - 1 || r.getSeatColumn() < 0 || r.getSeatColumn() > cinemaHall.getColumns() - 1);
+        return reservationDTOs.stream().anyMatch(r -> r.getSeatRow() < 1 || r.getSeatRow() > cinemaHall.getRows() || r.getSeatColumn() < 1 || r.getSeatColumn() > cinemaHall.getColumns());
     }
 
     private boolean anySeatTaken(List<ReservationDTO> reservationDTOs, List<Reservation> takenSeats) {
@@ -82,6 +88,14 @@ public class ReservationService {
         User user = new User();
         user.setId(id);
         return user;
+    }
+
+    private String generateBarcode() {
+        return new Random()
+                .ints(12, 0, 9)
+                .boxed()
+                .reduce(new StringBuilder(), StringBuilder::append, StringBuilder::append)
+                .toString();
     }
 
     public List<ReservationDTO> createReservations(List<ReservationDTO> reservationDTOs) throws BadReservationsException, RecordNotFoundException, NoSuchUserException {
@@ -106,7 +120,10 @@ public class ReservationService {
 
         List<Reservation> toSave = reservationDTOs.stream().map(ReservationDTO::toEntity).collect(Collectors.toList());
 
-        toSave.forEach(r -> r.setUser(reservationUser));
+        toSave.forEach(r -> {
+            r.setUser(reservationUser);
+            r.setCode(generateBarcode());
+        });
 
         return reservationRepository.saveAll(toSave).stream().map(Reservation::toDto).collect(Collectors.toList());
     }
@@ -136,7 +153,35 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    private String generateHTML(Reservation reservation) {
+    private static byte[] generateBarcode(String code) throws IOException {
+        Code128Bean code128Bean = new Code128Bean();
+
+        // Configure the barcode
+        final int dpi = 150;
+        code128Bean.setModuleWidth(0.2);
+        code128Bean.doQuietZone(false);
+
+        // Generate the barcode image
+        BitmapCanvasProvider canvas = new BitmapCanvasProvider(
+                dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+        code128Bean.generateBarcode(canvas, code);
+        canvas.finish();
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ImageIO.write(canvas.getBufferedImage(), "png", output);
+
+        return output.toByteArray();
+    }
+
+
+    public List<ReservationDTO> getAllReservations() {
+        return reservationRepository.findAll()
+                .stream()
+                .map(Reservation::toDto)
+                .collect(Collectors.toList());
+    }
+
+    private String generateHTML(Reservation reservation) throws IOException {
         Context context = new Context();
         context.setVariable("reservationId", reservation.getId());
         context.setVariable("seatRow", reservation.getSeatRow());
@@ -145,12 +190,17 @@ public class ReservationService {
         context.setVariable("movieTitle", reservation.getMovieScreening().getMovie().getTitle());
         context.setVariable("screeningDate", reservation.getMovieScreening().getScreeningDate());
 
+
         return templateEngine.process("reservation", context);
     }
 
     private OutputStream getReservationPDF(Reservation reservation) throws IOException {
         String html = generateHTML(reservation);
-        return PDFConverter.convertHtmlToPdf(html, reservation.getId());
+        InputStream image = new ByteArrayInputStream(generateBarcode(reservation.getCode()));
+
+        try (OutputStream os = PDFConverter.convertHtmlToPdf(html, image)) {
+            return os;
+        }
     }
 
     public InputStreamResource getReservationsPDF(List<ReservationDTO> reservationDTOs) throws RecordNotFoundException, IOException {
@@ -191,5 +241,7 @@ public class ReservationService {
         }
     }
 
-
+    public void deleteReservationAdmin(long id) {
+        reservationRepository.deleteById(id);
+    }
 }
