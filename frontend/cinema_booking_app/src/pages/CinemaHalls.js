@@ -123,7 +123,7 @@ const CinemaHalls = () => {
         <div className="body-container screenings-container">
             <AddCinemaHallDialog onConfirm = {formData => onConfirm(formData, setRows)} onClose = {() => onClose(setOpen)} open = {open}/>
             <DefaultButton color="success" onClick={() => setOpen(true)} text={"Add hall"} />
-            <DefaultButton color="error" onClick={() => onDeleteButtonClick(selected, setRows)} text={"Delete"}/>
+            {/* <DefaultButton color="error" onClick={() => onDeleteButtonClick(selected, setRows)} text={"Delete"}/> */}
             <DataGrid
                 rows={mapRows(rows)}
                 columns={columns}
