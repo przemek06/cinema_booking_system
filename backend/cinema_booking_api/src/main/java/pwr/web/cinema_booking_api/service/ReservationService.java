@@ -77,7 +77,7 @@ public class ReservationService {
     private boolean anySeatOutsideRange(List<ReservationDTO> reservationDTOs, long movieScreeningId) throws RecordNotFoundException {
         CinemaHallDTO cinemaHall = extractCinemaHall(movieScreeningId);
 
-        return reservationDTOs.stream().anyMatch(r -> r.getSeatRow() < 0 || r.getSeatRow() > cinemaHall.getRows() - 1 || r.getSeatColumn() < 0 || r.getSeatColumn() > cinemaHall.getColumns() - 1);
+        return reservationDTOs.stream().anyMatch(r -> r.getSeatRow() < 1 || r.getSeatRow() > cinemaHall.getRows() || r.getSeatColumn() < 1 || r.getSeatColumn() > cinemaHall.getColumns());
     }
 
     private boolean anySeatTaken(List<ReservationDTO> reservationDTOs, List<Reservation> takenSeats) {
@@ -173,6 +173,14 @@ public class ReservationService {
         return output.toByteArray();
     }
 
+
+    public List<ReservationDTO> getAllReservations() {
+        return reservationRepository.findAll()
+                .stream()
+                .map(Reservation::toDto)
+                .collect(Collectors.toList());
+    }
+
     private String generateHTML(Reservation reservation) throws IOException {
         Context context = new Context();
         context.setVariable("reservationId", reservation.getId());
@@ -233,5 +241,7 @@ public class ReservationService {
         }
     }
 
-
+    public void deleteReservationAdmin(long id) {
+        reservationRepository.deleteById(id);
+    }
 }

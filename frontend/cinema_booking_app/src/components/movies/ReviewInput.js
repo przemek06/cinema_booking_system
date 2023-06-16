@@ -47,7 +47,7 @@ const ReviewInput = ({ onSubmit, movieId }) => {
                             onClick={() => handleRatingChange(star)}
                             style={{ cursor: 'pointer' }}
                         >
-                            {star <= rating ? '★' : '☆'}
+                            {star <= rating ? <span style={{ color: 'yellow', textShadow: '0px 0px 1px black' }}>&#9733;</span> : <span>&#9734;</span>}
                         </span>
                     ))}
                 </div>

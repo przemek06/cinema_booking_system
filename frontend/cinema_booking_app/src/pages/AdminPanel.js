@@ -37,7 +37,7 @@ const handleCellClick = (param, event) => {
 };
 
 const loadReservations = async (setRows) => {
-    let result = await fetch("http://localhost:8080/user/reservations", {
+    let result = await fetch("http://localhost:8080/anon/reservations", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const onDeleteButtonClick = async (selected, setRows) => {
   
     for (const id of reservationIds) {
       let result = await fetch(
-        `http://localhost:8080/user/reservations/delete/${id}`,
+        `http://localhost:8080/admin/reservations/delete/${id}`,
         {
           method: "POST",
           headers: {
@@ -86,7 +86,7 @@ const onDeleteButtonClick = async (selected, setRows) => {
   };
   
 
-const Profile = () => {
+const AdminPanel = () => {
     const [rows, setRows] = useState([])
     const [selected, setSelected] = useState([])
 
@@ -111,4 +111,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default AdminPanel

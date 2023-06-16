@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import "./Style.css";
 import SeatMap from "../components/reservations/SeatMap";
-import DefaultButton from "../components/buttons/DefaultButton"
+import Button from '@mui/material/Button';
 
 const loadMovieScreening = async (id, setMovieScreening) => {
 
@@ -43,6 +43,29 @@ const loadReservations = async (id, setReservations) => {
         console.log("Success.");
         const resultJSON = await result.json();
         setReservations(resultJSON);
+    } else {
+        console.log("Could not load data.");
+    }
+}
+
+const loadUserReservations = async (id, setReservedSeatsCount) => {
+    let result = await fetch("http://localhost:8080/user/reservations", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+        referrerPolicy: "no-referrer",
+        origin: "http://localhost:3000/",
+    });
+
+    if (result.status === 200) {
+        console.log("Success.");
+        const resultJSON = await result.json();
+        const thisScreening = resultJSON.filter(reservation => reservation.movieScreening.id === id);
+        const count = thisScreening.length;
+        setReservedSeatsCount(count);
     } else {
         console.log("Could not load data.");
     }
@@ -127,6 +150,7 @@ const loadPDF = async (json) => {
 }
 
 const MakeReservation = ({isUser}) => {
+    const [reservedSeatsCount, setReservedSeatsCount] = useState(0);
     const [movieScreening, setMovieScreening] = useState()
     const [reservations, setReservations] = useState([])
     const [chosenSeats, setChosenSeats] = useState([])
@@ -144,6 +168,7 @@ const MakeReservation = ({isUser}) => {
         let screeningId = state["id"]
         loadMovieScreening(screeningId, setMovieScreening)
         loadReservations(screeningId, setReservations)
+        loadUserReservations(screeningId, setReservedSeatsCount)
     }, []);
 
     useEffect(() => {
@@ -158,9 +183,12 @@ const MakeReservation = ({isUser}) => {
         <div className="body-container">
             <div className="main-container">
                 <div class="centered-div">
-                    {error ? <p style={{ color: "red" }}>Error occured!</p> : <></>}
+                    {error ? <p style={{ color: "red" }}>Please select available seats from the seating map</p> : <></>}
                 </div>
                 <div className="summary-container">
+                    <h2 className="movie-info">{movieScreening === undefined ? <></> : movieScreening.movie.title}</h2>
+                    <h2 className="movie-info">{movieScreening === undefined ? <></> : movieScreening.screeningDate}</h2>
+                    <h2 className="movie-info">Cinema hall: {movieScreening === undefined ? <></> : movieScreening.cinemaHall.id}</h2>
                     <div class="row">
                         <div class="left-text">Total seats</div>
                         <div class="right-text">{totalSeats}</div>
@@ -169,10 +197,17 @@ const MakeReservation = ({isUser}) => {
                         <div class="left-text">Total price</div>
                         <div class="right-text">${totalPrice.toFixed(2)}</div>
                     </div>
+                    <div>
+                        {reservedSeatsCount}
+                    </div>
                 </div>
-                {movieScreening === undefined ? <></> : <SeatMap  reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={movieScreening.cinemaHall.rows} columns={movieScreening.cinemaHall.columns}/>}
+                {movieScreening === undefined ? <></> : <SeatMap  reservations={reservations} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} rows={movieScreening.cinemaHall.rows} columns={movieScreening.cinemaHall.columns} reservedSeatsCount={reservedSeatsCount} />}
                 <div class="centered-div">
-                    <DefaultButton onClick={() => onConfirm(chosenSeats, movieScreening, navigate, setError)} color={"success"} text={"Confirm"} />
+                    <Button
+                        variant="outlined"
+                        style={{margin: '10px', color: '#9D5C63', backgroundColor: '#FFFFFF', borderColor: '#9D5C63', borderRadius: 0 }}
+                        onClick={() => onConfirm(chosenSeats, movieScreening, navigate, setError)} color={"success"} text={"Confirm"}
+                    > Confirm </Button>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
 import React from 'react';
 import "./SeatMap.css"
 
-const SeatMap = ({ reservations, chosenSeats, setChosenSeats, rows, columns }) => {
+const SeatMap = ({ reservations, chosenSeats, setChosenSeats, rows, columns, reservedSeatsCount }) => {
     const handleClick = (seatRow, seatColumn, isReserved) => {
         if (isReserved) {
             return
@@ -22,7 +22,7 @@ const SeatMap = ({ reservations, chosenSeats, setChosenSeats, rows, columns }) =
         const updatedSeats = [...chosenSeats];
         updatedSeats.splice(seatIndex, 1);
         setChosenSeats(updatedSeats);
-        } else {
+        } else if (chosenSeats.length < (8 - reservedSeatsCount)) {
         // Seat not chosen, add it
         setChosenSeats([...chosenSeats, seat]);
         }
