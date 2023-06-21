@@ -75,6 +75,7 @@ const MovieCardList = ({movieCards, isUser}) => {
                     hours={mapDatesToHours(hours)}
                     screeningIds={screeningIds}
                     onButtonClick = {(id) => onHourButtonClick(navigate, id, isUser)}
+                    isUser = {isUser}
                 />
             })}
         </>

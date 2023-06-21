@@ -22,7 +22,6 @@ import pwr.web.cinema_booking_api.utils.PDFConverter;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -35,13 +34,15 @@ public class ReservationService {
     private final MovieScreeningService movieScreeningService;
     private final UserService userService;
     private final TemplateEngine templateEngine;
+    private final EmailService emailService;
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository, MovieScreeningService movieScreeningService, UserService userService, TemplateEngine templateEngine) {
+    public ReservationService(ReservationRepository reservationRepository, MovieScreeningService movieScreeningService, UserService userService, TemplateEngine templateEngine, EmailService emailService) {
         this.reservationRepository = reservationRepository;
         this.movieScreeningService = movieScreeningService;
         this.userService = userService;
         this.templateEngine = templateEngine;
+        this.emailService = emailService;
     }
 
     private Reservation findReservationById(long id) throws RecordNotFoundException {
@@ -181,7 +182,7 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    private String generateHTML(Reservation reservation) throws IOException {
+    private String generateHTML(Reservation reservation) {
         Context context = new Context();
         context.setVariable("reservationId", reservation.getId());
         context.setVariable("seatRow", reservation.getSeatRow());
@@ -189,7 +190,6 @@ public class ReservationService {
         context.setVariable("fullName", reservation.getUser().getFullName());
         context.setVariable("movieTitle", reservation.getMovieScreening().getMovie().getTitle());
         context.setVariable("screeningDate", reservation.getMovieScreening().getScreeningDate());
-
 
         return templateEngine.process("reservation", context);
     }
@@ -202,6 +202,8 @@ public class ReservationService {
             return os;
         }
     }
+
+
 
     public InputStreamResource getReservationsPDF(List<ReservationDTO> reservationDTOs) throws RecordNotFoundException, IOException {
         List<Long> ids = reservationDTOs.stream()
@@ -233,6 +235,7 @@ public class ReservationService {
         try (OutputStream outputStream = PDFConverter.mergePdfDocuments(pdfs)) {
             ByteArrayOutputStream byteArrayOutputStream = (ByteArrayOutputStream) outputStream;
             byte[] bytes = byteArrayOutputStream.toByteArray();
+            emailService.sendConfirmationToCustomer(userService.getUser(), new ByteArrayInputStream(bytes));
             InputStream inputStream = new ByteArrayInputStream(bytes);
             return new InputStreamResource(inputStream);
 
