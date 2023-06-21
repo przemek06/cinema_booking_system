@@ -11,16 +11,32 @@ const buttonStyle = {
 
 const HourButton = ({
     label,
-    onClick
-}) => (
-  <Button
+    onClick,
+    isUser
+}) => {
+  if (isUser) {
+    return (<Button
+
     variant="outlined"
     className="btn btn-default"
     style={buttonStyle}
     onClick={onClick}
   >
     {label}
-  </Button>
-);
+  </Button>)
+  } else {
+    return (<Button
+    disabled
+    variant="outlined"
+    className="btn btn-default"
+    style={buttonStyle}
+    onClick={onClick}
+  >
+    {label}
+  </Button>)
+  }
+}
+
+
 
 export default HourButton;

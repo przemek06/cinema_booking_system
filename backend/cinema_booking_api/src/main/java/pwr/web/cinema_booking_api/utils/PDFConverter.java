@@ -1,17 +1,18 @@
 package pwr.web.cinema_booking_api.utils;
 
-import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.styledxmlparser.jsoup.Jsoup;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
+import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import pwr.web.cinema_booking_api.pdf.ProfileImageReplacedElementFactory;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
-import java.util.Random;
 
 public class PDFConverter {
 
@@ -33,8 +34,6 @@ public class PDFConverter {
         } catch (Exception e) {
            throw new IOException();
 
-        } finally {
-//            document.close();
         }
 
         return outputStream;
@@ -53,7 +52,7 @@ public class PDFConverter {
 
             // Open the document
             document.open();
-
+            document.addTitle("reservation");
             // Iterate through each PDF OutputStream
             for (OutputStream pdfFile : pdfFiles) {
                 // Create a PdfReader for the current PDF OutputStream
@@ -78,18 +77,5 @@ public class PDFConverter {
 
         return mergedPdfOutputStream;
     }
-
-    public static String randomNumber() {
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < 12; i++) {
-            int randomNumber = random.nextInt();
-            sb.append(randomNumber).append(" ");
-        }
-
-        return sb.toString().trim();
-    }
-
 
 }

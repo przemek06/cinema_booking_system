@@ -103,7 +103,7 @@ const AdminPanel = () => {
             <DataGrid
                 rows={mapRows(rows)}
                 columns={columns}
-                paginationModel={{ page: 0, pageSize: 10 }}
+                paginationModel={{ page: 0, pageSize: 50 }}
                 checkboxSelection
                 onRowSelectionModelChange={setSelected}
                 onRowClick={handleRowClick}

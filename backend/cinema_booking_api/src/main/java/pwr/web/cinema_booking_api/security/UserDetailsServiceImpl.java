@@ -24,8 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        initUser("admin@gmail.com", "pass1", "ADMIN", "Jon Doe");
-        initUser("user@gmail.com", "pass2", "USER", "Joe Doe");
+        initUser("260304@student.pwr.edu.pl", "pass1", "ADMIN", "Jon Doe");
+        initUser("swiatprzemyslaw@gmail.com", "pass2", "USER", "Joe Doe");
     }
 
     private void initUser(String email, String password, String role, String fullName) {

@@ -1,7 +1,6 @@
 package pwr.web.cinema_booking_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,6 +50,14 @@ public class UserService {
         }
 
         throw  new NoSuchUserException();
+    }
+
+    public User getUser() throws NoSuchUserException {
+        long id = getId();
+
+        return userRepository
+                .findById(id)
+                .orElseThrow(NoSuchUserException::new);
     }
 
     public UserDTO addUser(UserDTO userDTO) {
