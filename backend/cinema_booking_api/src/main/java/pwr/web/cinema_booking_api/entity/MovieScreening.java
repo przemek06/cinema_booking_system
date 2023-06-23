@@ -26,6 +26,7 @@ public class MovieScreening {
     private Movie movie;
     @ManyToOne
     @JoinColumn(name = "cinema_hall_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private CinemaHall cinemaHall;
     private Date screeningDate;
     private Integer basePrice;
