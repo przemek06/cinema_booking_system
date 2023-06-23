@@ -19,12 +19,12 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "movie_screening_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieScreening movieScreening;
     private Integer seatRow;
     private Integer seatColumn;
