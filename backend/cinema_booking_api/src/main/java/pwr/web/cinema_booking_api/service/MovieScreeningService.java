@@ -94,11 +94,18 @@ public class MovieScreeningService {
                 .stream()
                 .anyMatch(screening -> {
                     Date endOfScreening = getDatePlusMinutes(screening.getScreeningDate(), screening.getMovie().getDuration());
-                    return (screening.getScreeningDate().after(startTime) || screening.getScreeningDate().equals(startTime))
+                    return (screening.getScreeningDate().after(dateMinusOne(startTime)) || screening.getScreeningDate().equals(startTime))
                             && (endOfScreening.before(endTime) || endOfScreening.equals(endTime));
                 });
 
         return !startDuringAnotherScreening && !endDuringAnotherScreening && !overlappingAnotherScreening;
+    }
+
+    public Date dateMinusOne(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, -1);
+        return cal.getTime();
     }
 
     public MovieScreeningDTO addMovieScreening(MovieScreeningDTO movieScreeningDTO) throws BadDateException {
