@@ -203,8 +203,6 @@ public class ReservationService {
         }
     }
 
-
-
     public InputStreamResource getReservationsPDF(List<ReservationDTO> reservationDTOs) throws RecordNotFoundException, IOException {
         List<Long> ids = reservationDTOs.stream()
                 .map(ReservationDTO::getId)
